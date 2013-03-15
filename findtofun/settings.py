@@ -1,10 +1,13 @@
 # Django settings for findtofun project.
+import re
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-#     ('Tomislav Slijepcevic', 'tomi.slij@gmail.com'),
+    ('Peter Us', 'peter.us.99@gmail.com'),
+    ('Nejc Silc', 'nejc.silc@siol.com'),
+    ('Tomislav Slijepcevic', 'tomi.slij@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -29,7 +32,7 @@ ALLOWED_HOSTS = []
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'Europe/Ljubljana'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -108,6 +111,7 @@ ROOT_URLCONF = 'findtofun.urls'
 WSGI_APPLICATION = 'findtofun.wsgi.application'
 
 TEMPLATE_DIRS = (
+     '/Users/TipyTop/git/heroku/findtofun/templates'
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -124,6 +128,7 @@ INSTALLED_APPS = (
      'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'polls',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -161,3 +166,22 @@ DATABASES['default'] =  dj_database_url.config()
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# TOMI added from now on
+
+# report broken links - 404 error if referrer is in request
+SEND_BROKEN_LINK_EMAILS = True
+# the opposite. Ignore 404 urls.
+IGNORABLE_404_URLS = (
+    re.compile(r'\.(php|cgi)$'),
+    re.compile(r'^/phpmyadmin/'),
+
+    # The following example shows how to exclude some
+    # conventional URLs that browsers and crawlers often request
+    re.compile(r'^/apple-touch-icon.*\.png$'),
+    re.compile(r'^/favicon\.ico$'),
+    re.compile(r'^/robots\.txt$'),
+)
+
+#DEFAULT_EXCEPTION_REPORTER_FILTER = 'path.to.your.CustomExceptionReporterFilter'
+USE_ETAGS = True
