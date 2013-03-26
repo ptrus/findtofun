@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <title>{% block title %}FindtoFun{% endblock %}</title>
+</head>
+
+<body>
+<div id="header">
+    <h1>FindToFun  TODO:  HEADER</h1>
+</div>
+
+<div id="content">
+    {% block content %}{% endblock %}
+</div>
+
+<div id="footer">
+    {% block sidebar %}
+        <h1>TODO: FOOTER</h1>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/blog/">Blog</a></li>
+        </ul>
+    {% endblock %}
+</div>
+</body>
+</html>
