@@ -15,8 +15,8 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'C:/Users/Nejc/Dropbox/findtofun/tftdb.db',  # Or path to database file if using sqlite3.
-        #'NAME': 'C:/???/findtofun/ftfdb.db',
+#        'NAME': 'C:/Users/Nejc/Dropbox/findtofun/tftdb.db',  # Or path to database file if using sqlite3.
+        'NAME': '/Users/TipyTop/Desktop/Dropbox/findtofun/tftdb.db',
         #'NAME': 'C:/???/findtofun/ftfdb.db',
         # The following settings are not used with sqlite3:
         'USER': '',
@@ -136,6 +136,9 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'app',
+#    'south',
+    'social_auth',
+    'fb',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -170,8 +173,6 @@ LOGGING = {
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# TOMI added from now on
-
 # report broken links - 404 error if referrer is in request
 SEND_BROKEN_LINK_EMAILS = True
 # the opposite. Ignore 404 urls.
@@ -188,3 +189,34 @@ IGNORABLE_404_URLS = (
 
 #DEFAULT_EXCEPTION_REPORTER_FILTER = 'path.to.your.CustomExceptionReporterFilter'
 USE_ETAGS = True
+
+#===============================================================================
+# Django Social Auth
+#===============================================================================
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.facebook.FacebookBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.contrib.messages.context_processors.messages',
+    'social_auth.context_processors.social_auth_by_type_backends',
+)
+
+FACEBOOK_APP_ID              = '436119486471234'
+FACEBOOK_API_SECRET          = '02124a5e2b45255e1aa3bb9330e3fbe9'
+
+LOGIN_URL          = '/fb/'
+LOGIN_REDIRECT_URL = '/donee/'
+LOGIN_ERROR_URL    = '/error/'
+
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+SOCIAL_AUTH_URLOPEN_TIMEOUT = 30
+SOCIAL_AUTH_FORCE_POST_DISCONNECT = True
+SOCIAL_AUTH_SESSION_EXPIRATION = False
+SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
