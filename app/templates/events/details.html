@@ -8,7 +8,7 @@
 
     <ul>
         <li><h3>Host: {{ event.host }}</h3></li>
-        <li><h3>Event type: {{ event.event_type }}</h3> </li> {# tuki neznam narest da bi na mest stevilke od event_type pisala vrednost taprava!!! #}
+        <li><h3>Event type: {{ event.get_event_type_display }}</h3> </li>
         <li><h3>From:</h3> {{ event.event_start_time }}</li>
         <li><h3>To:</h3>  {{ event.event_end_time }}</li>
         <li><h3>Male: {{ event.male_guests }}</h3>  </li>
