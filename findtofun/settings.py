@@ -15,7 +15,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'C:/Users/Nejc/Dropbox/findtofun/tftdb.db',  # Or path to database file if using sqlite3.
+        'NAME': 'C:/Users/Peter/BAZA/findtofun/baza.db',  # Or path to database file if using sqlite3.
         #'NAME': 'C:/???/findtofun/ftfdb.db',
         #'NAME': 'C:/???/findtofun/ftfdb.db',
         # The following settings are not used with sqlite3:
@@ -68,7 +68,7 @@ MEDIA_URL = ''
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
-# in apps' "static/" subdirectories and in STATICFILES_DIRS.
+# in events' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
 STATIC_ROOT = ''
 
@@ -135,8 +135,29 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'social_auth',
     'app',
 )
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.facebook.FacebookBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'social_auth.context_processors.social_auth_by_type_backends',
+)
+
+SOCIAL_AUTH_ENABLED_BACKENDS = ('facebook',)
+SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
+
+FACEBOOK_APP_ID = '436119486471234'
+FACEBOOK_API_SECRET = '02124a5e2b45255e1aa3bb9330e3fbe9'
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/private/'
+LOGIN_ERROR_URL = '/login-error/'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
