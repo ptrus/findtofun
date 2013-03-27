@@ -1,7 +1,7 @@
 __author__ = 'Nejc'
 
 from django.contrib import admin
-from app.models import Host, Event, User, Ticket
+from app.models import Host, Event, Ticket
 
 
 class TicketInline(admin.TabularInline):
@@ -23,5 +23,4 @@ class HostAdmin(admin.ModelAdmin):
 admin.site.register(Host, HostAdmin)
 
 #admin.site.register(Host)
-admin.site.register(User)
 #admin.site.register(Event)
