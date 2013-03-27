@@ -16,7 +16,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
 #        'NAME': 'C:/Users/Nejc/Dropbox/findtofun/tftdb.db',  # Or path to database file if using sqlite3.
-        'NAME': '/Users/TipyTop/Desktop/Dropbox/findtofun/tftdb.db',
+        'NAME': '/Users/TipyTop/Desktop/Dropbox/findtofun/baza.db',
         #'NAME': 'C:/???/findtofun/ftfdb.db',
         # The following settings are not used with sqlite3:
         'USER': '',
@@ -128,7 +128,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
+#    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
@@ -136,7 +136,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'app',
-#    'south',
+    'south',
     'social_auth',
     'fb',
 )
@@ -212,7 +212,7 @@ FACEBOOK_APP_ID              = '436119486471234'
 FACEBOOK_API_SECRET          = '02124a5e2b45255e1aa3bb9330e3fbe9'
 
 LOGIN_URL          = '/fb/'
-LOGIN_REDIRECT_URL = '/donee/'
+LOGIN_REDIRECT_URL = '/done/'
 LOGIN_ERROR_URL    = '/error/'
 
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
