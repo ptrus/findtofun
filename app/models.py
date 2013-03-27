@@ -5,18 +5,13 @@ __author__ = 'Nejc'
 from django.db import models
 from django.utils import timezone
 
-class User(models.Model):
-    user_name = models.CharField(max_length=200)
-    def __unicode__(self):
-        return self.user_name
-
 class Host(models.Model):
     host_name = models.CharField(max_length=200)
     def __unicode__(self):
         return self.host_name
 
 class Event(models.Model):
-    EVENT_REATE = (
+    EVENT_RATE = (
         (u'1', u'Not interesting'),
         (u'2', u'Not bad'),
         (u'3', u'Interesting'),
@@ -44,7 +39,7 @@ class Event(models.Model):
     female_guests = models.IntegerField(default=0)
     event_location = models.CharField(max_length=200)
     #ticket_place = models.CharField(max_length=200)
-    event_rated = models.CharField(max_length=2, choices=EVENT_REATE, null=True)
+    event_rated = models.CharField(max_length=2, choices=EVENT_RATE, null=True)
     def __unicode__(self):
         return u'%s %s' % (self.event_name, self.event_type)
 
