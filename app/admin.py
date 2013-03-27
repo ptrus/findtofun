@@ -9,7 +9,7 @@ class TicketInline(admin.TabularInline):
     extra = 1
 
 class EventInline(admin.StackedInline):
-    exclude = ['event_rated']
+    #exclude = ['event_rated'] ce je null da ga ne izpise
     model = Event
     extra = 1
 
@@ -20,7 +20,20 @@ class HostAdmin(admin.ModelAdmin):
     ]
     inlines = [EventInline]
 
-admin.site.register(Host, HostAdmin)
+#    list_display = ('host_name', 'event_start_time', 'legal_start_time')
+#    list_filter = ['event_start_time']
+    search_fields = ['host_name']
+#    date_hierarchy = 'event_start_time'
 
-#admin.site.register(Host)
-#admin.site.register(Event)
+class EventAdmin(admin.ModelAdmin):
+    #fields = ['host', 'event_name', 'event_location', 'event_type']
+    inlines = [TicketInline]
+
+    list_display = ('event_name', 'event_start_time', 'expired') #TO-DO show this function in true/false format 'legal_start_time', 'legal_end_time'
+    list_filter = ['event_start_time']
+    search_fields = ['event_name']
+    date_hierarchy = 'event_start_time'
+
+
+admin.site.register(Host, HostAdmin)
+admin.site.register(Event, EventAdmin)
