@@ -1,9 +1,10 @@
-{% extends "events/base.html" %}
+{% extends "base.html" %}
+{% load url from future %}
 
 {% block title %}Events{% endblock %}
 
+{% block heading %}Events{% endblock %}
 {% block content %}
-
 {% if latest_events_list %}
     <ul>
         {% for event in latest_events_list %}
