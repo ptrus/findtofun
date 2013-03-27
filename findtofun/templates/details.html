@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block title %}Event Details{% endblock %}
+
+{% block heading %}Event Details{% endblock %}
+{% block content %}
+
+    <h1>{{ event.event_name }}</h1>
+
+    <ul>
+        <li><h3>Host: {{ event.host }}</h3></li>
+        <li><h3>Event type: {{ event.get_event_type_display }}</h3> </li>
+        <li><h3>From:</h3> {{ event.event_start_time }}</li>
+        <li><h3>To:</h3>  {{ event.event_end_time }}</li>
+        <li><h3>Male: {{ event.male_guests }}</h3>  </li>
+        <li><h3>Female: {{ event.female_guests }}</h3>  </li>
+    </ul>
+
+    <a href="/events/">Go back?</a>
+
+{% endblock %}
