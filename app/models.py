@@ -2,8 +2,10 @@ __author__ = 'Nejc'
 #info:
 #https://docs.djangoproject.com/en/1.5/ref/models/instances/#django.db.models.Model
 #https://docs.djangoproject.com/en/dev/ref/forms/fields/
+
 from django.db import models
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 class Host(models.Model):
     host_name = models.CharField(max_length=200)
@@ -32,20 +34,29 @@ class Event(models.Model):
 
     host = models.ForeignKey(Host, null=True)
     event_name = models.CharField(max_length=200)
-    event_type = models.CharField(max_length=1, choices=EVENT_TYPES)
-    event_start_time = models.DateTimeField(default=timezone.now()) #'%m/%d/%Y %H:%M' '10/25/2006 14:30'
-    event_end_time = models.DateTimeField()   #TO-DO default = start time
-#    event_created_time = models.DateField(auto_now_add=True) #TO-DO
+    event_type = models.CharField(max_length=1,
+                                  choices=EVENT_TYPES)
+    event_start_time = models.DateTimeField(default=timezone.now(),) #'%m/%d/%Y %H:%M' '10/25/2006 14:30'
+    event_end_time = models.DateTimeField()
+    event_created_time = models.DateTimeField(default=timezone.now(),
+                                              auto_now_add=True,
+                                              editable=False)
+    #event_created_time =timezone.now() #TO-DO
     male_guests = models.IntegerField(default=0)
     female_guests = models.IntegerField(default=0)
     event_location = models.CharField(max_length=200)
-    event_rated = models.CharField(max_length=2, choices=EVENT_RATE, null=True)
+    event_rated = models.CharField(max_length=2,
+                                   choices=EVENT_RATE,
+                                   null=True,
+                                   blank=True)
     def __unicode__(self):
         return u'%s %s' % (self.event_name, self.get_event_type_display())
-    def legal_start_time(self):  #TO-DO pravilnost vnosa
-        return self.event_start_time > self.event_created_time
-    def legal_end_time(self):
-        return self.event_start_time < self.event_end_time
+    def clean(self):  #TO-DO pravilnost vnosa
+        if not self.event_start_time > self.event_created_time:
+            raise ValidationError('Incorrect start time! Start time is in the past')
+        if not self.event_start_time < self.event_end_time:
+            raise ValidationError('Incorrect end time! End time is behind start time')
+
     def expired(self):
         return self.event_end_time < timezone.now()
     expired.admin_order_field = 'event_end_time'
