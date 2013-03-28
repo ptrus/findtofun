@@ -5,9 +5,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Peter Us', 'peter.us.99@gmail.com'),
-    ('Nejc Silc', 'nejc.silc@siol.com'),
-    ('Tomislav Slijepcevic', 'tomi.slij@gmail.com'),
+    # ('Your Name', 'your_email@example.com'),
 )
 
 MANAGERS = ADMINS
@@ -102,6 +100,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+#    'fb.middleware.SSLMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -109,6 +108,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'fb.middleware.ExampleSocialAuthExceptionMiddleware',
 )
 
 ROOT_URLCONF = 'findtofun.urls'
@@ -194,6 +194,8 @@ USE_ETAGS = True
 # Django Social Auth
 #===============================================================================
 
+AUTH_USER_MODEL = "fb.MyUser"
+
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.facebook.FacebookBackend',
     'django.contrib.auth.backends.ModelBackend',
@@ -208,15 +210,62 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'social_auth.context_processors.social_auth_by_type_backends',
 )
 
+SOCIAL_AUTH_PIPELINE = (
+    'social_auth.backends.pipeline.social.social_auth_user',
+    #'social_auth.backends.pipeline.associate.associate_by_email',
+#    'social_auth.backends.pipeline.user.create_user',
+#    'social_auth.backends.pipeline.social.associate_user',
+    'social_auth.backends.pipeline.social.load_extra_data',
+#    'social_auth.backends.pipeline.user.update_user_details',
+#    'social_auth.backends.pipeline.misc.save_status_to_session',
+    'fb.pipeline.username',
+)
+
 FACEBOOK_APP_ID              = '436119486471234'
 FACEBOOK_API_SECRET          = '02124a5e2b45255e1aa3bb9330e3fbe9'
+FACEBOOK_EXTENDED_PERMISSIONS = [
+     'create_event',
+     'rsvp_event',
+     'user_hometown',
+     'user_location',
+     'user_events',
+     'friends_events'                        
+]
+FACEBOOK_EXTRA_DATA = ['gender', 'locale', 'username']
 
-LOGIN_URL          = '/fb/'
+LOGIN_URL          = '/login/'
+
 LOGIN_REDIRECT_URL = '/done/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/done/'
+#FACEBOOK_SOCIAL_AUTH_LOGIN_REDIRECT_URL = ""
+
 LOGIN_ERROR_URL    = '/error/'
+FACEBOOK_LOGIN_ERROR_URL = "/error/"
+
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/done/'
+#FACEBOOK_SOCIAL_AUTH_NEW_USER_REDIRECT_URL = ""
+
+SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/disconnect/'
+#FACEBOOK_SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = ""
+
+SOCIAL_AUTH_BACKEND_ERROR_URL = '/error?backend=any'
+#FACEBOOK_SOCIAL_AUTH_BACKEND_ERROR_URL = "/error?backend=facebook"
+
+SOCIAL_AUTH_INACTIVE_USER_URL = '/social?inactive=any'
+#FACEBOOK_SOCIAL_AUTH_INACTIVE_USER_URL = '/social?inactive=facebook'
+
+FACEBOOK_SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = "/social?new_association=facebook"
+
+SOCIAL_AUTH_COMPLETE_URL_NAME  = 'socialauth_complete'
+SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
 
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 SOCIAL_AUTH_URLOPEN_TIMEOUT = 30
 SOCIAL_AUTH_FORCE_POST_DISCONNECT = True
 SOCIAL_AUTH_SESSION_EXPIRATION = False
 SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
+# SOCIAL_AUTH_CREATE_USERS = False
+
+# facebook testing
+TEST_FACEBOOK_USER = 'testing_account'
+TEST_FACEBOOK_PASSWORD = 'password_for_testing_account'
