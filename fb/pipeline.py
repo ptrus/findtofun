@@ -1,4 +1,3 @@
-from django.http import HttpResponseRedirect
 
 def username(request, *args, **kwargs):
     if kwargs.get('user'):
