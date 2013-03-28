@@ -1,4 +1,3 @@
-__author__ = 'Nejc'
 #info:
 #https://docs.djangoproject.com/en/1.5/ref/models/instances/#django.db.models.Model
 #https://docs.djangoproject.com/en/dev/ref/forms/fields/
