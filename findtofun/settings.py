@@ -136,7 +136,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'app',
-    'south',
+#    'south',
     'social_auth',
     'fb',
 )
@@ -213,12 +213,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 SOCIAL_AUTH_PIPELINE = (
     'social_auth.backends.pipeline.social.social_auth_user',
     #'social_auth.backends.pipeline.associate.associate_by_email',
-#    'social_auth.backends.pipeline.user.create_user',
-#    'social_auth.backends.pipeline.social.associate_user',
-    'social_auth.backends.pipeline.social.load_extra_data',
-#    'social_auth.backends.pipeline.user.update_user_details',
-#    'social_auth.backends.pipeline.misc.save_status_to_session',
-    'fb.pipeline.username',
+    'social_auth.backends.pipeline.user.get_username',
+    'social_auth.backends.pipeline.user.create_user',
+    'social_auth.backends.pipeline.social.associate_user',
+    'social_auth.backends.pipeline.user.update_user_details',
+    'fb.pipeline.write_extra_details',
 )
 
 FACEBOOK_APP_ID              = '436119486471234'
@@ -226,38 +225,28 @@ FACEBOOK_API_SECRET          = '02124a5e2b45255e1aa3bb9330e3fbe9'
 FACEBOOK_EXTENDED_PERMISSIONS = [
      'create_event',
      'rsvp_event',
-     'user_hometown',
-     'user_location',
-     'user_events',
-     'friends_events'                        
 ]
-FACEBOOK_EXTRA_DATA = ['gender', 'locale', 'username']
 
-LOGIN_URL          = '/login/'
+LOGIN_URL          = '/login'
 
-LOGIN_REDIRECT_URL = '/done/'
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/done/'
-#FACEBOOK_SOCIAL_AUTH_LOGIN_REDIRECT_URL = ""
+LOGIN_REDIRECT_URL = '/done'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/done?type=social'
+FACEBOOK_SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/done?type=social&backend=fb'
 
-LOGIN_ERROR_URL    = '/error/'
-FACEBOOK_LOGIN_ERROR_URL = "/error/"
+LOGIN_ERROR_URL    = '/error?type=login'
+FACEBOOK_LOGIN_ERROR_URL = "/error?type=login&backend=fb"
+SOCIAL_AUTH_BACKEND_ERROR_URL = '/error?type=backend'
+FACEBOOK_SOCIAL_AUTH_BACKEND_ERROR_URL = "/error?type=backend&backend=fb"
 
-SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/done/'
-#FACEBOOK_SOCIAL_AUTH_NEW_USER_REDIRECT_URL = ""
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/done?type=newUser'
+FACEBOOK_SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/done?type=newUser&backend=fb'
+SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/disconnect'
+FACEBOOK_SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/disconnect?backend=fb'
 
-SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/disconnect/'
-#FACEBOOK_SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = ""
-
-SOCIAL_AUTH_BACKEND_ERROR_URL = '/error?backend=any'
-#FACEBOOK_SOCIAL_AUTH_BACKEND_ERROR_URL = "/error?backend=facebook"
-
-SOCIAL_AUTH_INACTIVE_USER_URL = '/social?inactive=any'
-#FACEBOOK_SOCIAL_AUTH_INACTIVE_USER_URL = '/social?inactive=facebook'
-
-FACEBOOK_SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = "/social?new_association=facebook"
+SOCIAL_AUTH_INACTIVE_USER_URL = '/social'
+FACEBOOK_SOCIAL_AUTH_INACTIVE_USER_URL = '/social?type=inactive&backend=fb'
 
 SOCIAL_AUTH_COMPLETE_URL_NAME  = 'socialauth_complete'
-SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
 
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 SOCIAL_AUTH_URLOPEN_TIMEOUT = 30
