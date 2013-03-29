@@ -31,7 +31,13 @@
       pre {display: inline;}
     </style>
     
-    {% block stylesheets %}{% endblock %}
+    {% block stylesheets %}
+    <script type="text/javascript">
+	   if (window.location.hash == '#_=_') {
+	      window.location.hash = '';
+	   }
+	</script>
+    {% endblock %}
     {% block script %}{% endblock %}
 </head>
 <body>
