@@ -64,15 +64,3 @@ def facebook_decorator(func):
         return func(request, *args, **kwargs)
 
     return wrapper
-
-
-@csrf_exempt
-@facebook_decorator
-def facebook_view(request, *args, **kwargs):
-    # If there is a ready response just return it. Not recommended though.
-    auth_response =  kwargs.get('auth_response')
-    if auth_response:
-        return auth_response
-
-    return render_to_response('facebook.html', {'fb_app_id':setting('FACEBOOK_APP_ID'),
-                                                'warning': request.method == 'GET'}, RequestContext(request))

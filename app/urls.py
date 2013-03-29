@@ -5,7 +5,7 @@ from app.models import Event
 urlpatterns = patterns('',
     url(r'^$',
         ListView.as_view(
-            queryset=Event.objects.order_by('-event_start_time')[:10],
+            queryset=Event.objects.order_by('-start_time')[:10],
             context_object_name='latest_events_list',
             template_name='events.html'),
         name='events'),
