@@ -47,7 +47,9 @@ class Event(models.Model):
     start_time = models.DateTimeField(default=timezone.now()) #'%m/%d/%Y %H:%M' '10/25/2006 14:30'
     end_time = models.DateTimeField(null=True)
     update_time = models.DateField(null=True)
-    event_created_time = models.DateField(default=timezone.now())
+    event_created_time = models.DateTimeField(default=timezone.now(),
+                                              auto_now_add=True,
+                                              editable=False)
     males = models.IntegerField(default=0)
     females = models.IntegerField(default=0)
     location = models.CharField(max_length=200, null=True)
@@ -56,10 +58,16 @@ class Event(models.Model):
 #        return u'%s %s' % (self.name, self.get_event_type_display())
 #    def legal_start_time(self):  #TO-DO pravilnost vnosa
 #        return self.start_time > self.event_created_time
-    def legal_end_time(self):
-        return self.start_time < self.end_time
+    def __unicode__(self):
+        return u'%s %s' % (self.event_name, self.get_event_type_display())
+    def clean(self):  #TO-DO pravilnost vnosa
+        if not self.event_start_time > self.event_created_time:
+            raise ValidationError('Incorrect start time! Start time is in the past')
+        if not self.event_start_time < self.event_end_time:
+            raise ValidationError('Incorrect end time! End time is behind start time')
+
     def expired(self):
-        return self.end_time < timezone.now()
+        return self.event_end_time < timezone.now()
     expired.admin_order_field = 'event_end_time'
     expired.boolean = True
     expired.short_description = 'Event expired ?'
@@ -72,4 +80,3 @@ class Ticket(models.Model):
     ticket_place = models.CharField(max_length=200, null=True)
     def __unicode__(self):
         return self.ticket_place
-

@@ -1,10 +1,6 @@
 from django.conf.urls import patterns, url
-from django.views.generic import DetailView, ListView, TemplateView
-from django.utils import timezone
-
-from app import views
+from django.views.generic import DetailView, ListView
 from app.models import Event
-from app.models import Host
 
 urlpatterns = patterns('',
     url(r'^$',
