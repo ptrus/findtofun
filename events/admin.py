@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app.models import Host, Event, Ticket
+from events.models import Host, Event, Ticket
 
 
 class TicketInline(admin.TabularInline):
