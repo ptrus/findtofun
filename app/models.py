@@ -3,6 +3,7 @@
 #https://docs.djangoproject.com/en/dev/ref/forms/fields/
 from django.db import models
 from django.utils import timezone
+from django.core.validators import *
 
 class Host(models.Model):
     host_name = models.CharField(max_length=200)
@@ -71,8 +72,10 @@ class Event(models.Model):
     expired.admin_order_field = 'event_end_time'
     expired.boolean = True
     expired.short_description = 'Event expired ?'
-    
+
     objects = EventManager()
+    
+
 
 
 class Ticket(models.Model):

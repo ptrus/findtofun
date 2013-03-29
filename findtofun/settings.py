@@ -1,7 +1,7 @@
-# Django settings for findtofun project.
+    # Django settings for findtofun project.
 import re, os
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (

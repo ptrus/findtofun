@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.contrib.messages.api import get_messages
-
+from django.contrib.auth import logout
 from social_auth.utils import setting
 
 def home(request):
