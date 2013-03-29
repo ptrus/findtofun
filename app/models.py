@@ -9,6 +9,18 @@ class Host(models.Model):
     def __unicode__(self):
         return self.host_name
 
+class EventManager(models.Manager):
+    def create_event(self, host, name, location, start_time, end_time):
+        event = self.model(
+            host=host,
+            name=name,
+            location=location,
+            start_time=start_time,
+            end_time=end_time,
+        )
+        
+        return event
+        
 class Event(models.Model):
     EVENT_RATE = (
         (u'1', u'Not interesting'),
@@ -30,26 +42,29 @@ class Event(models.Model):
     )
 
     host = models.ForeignKey(Host, null=True)
-    event_name = models.CharField(max_length=200)
-    event_type = models.CharField(max_length=1, choices=EVENT_TYPES)
-    event_start_time = models.DateTimeField(default=timezone.now()) #'%m/%d/%Y %H:%M' '10/25/2006 14:30'
-    event_end_time = models.DateTimeField()   #TO-DO default = start time
-#    event_created_time = models.DateField(auto_now_add=True) #TO-DO
-    male_guests = models.IntegerField(default=0)
-    female_guests = models.IntegerField(default=0)
-    event_location = models.CharField(max_length=200)
-    event_rated = models.CharField(max_length=2, choices=EVENT_RATE, null=True)
-    def __unicode__(self):
-        return u'%s %s' % (self.event_name, self.get_event_type_display())
-    def legal_start_time(self):  #TO-DO pravilnost vnosa
-        return self.event_start_time > self.event_created_time
+    name = models.CharField(max_length=200)
+    type = models.CharField(max_length=1, choices=EVENT_TYPES)
+    start_time = models.DateTimeField(default=timezone.now()) #'%m/%d/%Y %H:%M' '10/25/2006 14:30'
+    end_time = models.DateTimeField(null=True)
+    update_time = models.DateField(null=True)
+    event_created_time = models.DateField(default=timezone.now())
+    males = models.IntegerField(default=0)
+    females = models.IntegerField(default=0)
+    location = models.CharField(max_length=200, null=True)
+    rated = models.CharField(max_length=2, choices=EVENT_RATE, null=True)
+#    def __unicode__(self):
+#        return u'%s %s' % (self.name, self.get_event_type_display())
+#    def legal_start_time(self):  #TO-DO pravilnost vnosa
+#        return self.start_time > self.event_created_time
     def legal_end_time(self):
-        return self.event_start_time < self.event_end_time
+        return self.start_time < self.end_time
     def expired(self):
-        return self.event_end_time < timezone.now()
+        return self.end_time < timezone.now()
     expired.admin_order_field = 'event_end_time'
     expired.boolean = True
     expired.short_description = 'Event expired ?'
+    
+    objects = EventManager()
 
 
 class Ticket(models.Model):

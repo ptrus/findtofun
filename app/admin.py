@@ -27,10 +27,10 @@ class EventAdmin(admin.ModelAdmin):
     #fields = ['host', 'event_name', 'event_location', 'event_type']
     inlines = [TicketInline]
 
-    list_display = ('event_name', 'event_start_time', 'expired') #TO-DO show this function in true/false format 'legal_start_time', 'legal_end_time'
-    list_filter = ['event_start_time']
-    search_fields = ['event_name']
-    date_hierarchy = 'event_start_time'
+    list_display = ('name', 'start_time', 'expired') #TO-DO show this function in true/false format 'legal_start_time', 'legal_end_time'
+    list_filter = ['start_time']
+    search_fields = ['name']
+    date_hierarchy = 'start_time'
 
 
 admin.site.register(Host, HostAdmin)
