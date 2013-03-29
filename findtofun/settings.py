@@ -14,8 +14,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
 #        #'NAME': 'C:/Users/Nejc/Dropbox/findtofun/tftdb.db',  # Or path to database file if using sqlite3.
-        #'NAME': '/Users/TipyTop/Desktop/Dropbox/findtofun/baza.db',
-        'NAME': 'C:/Users/Peter/Dropbox/findtofun/baza.db',
+        'NAME': '/Users/TipyTop/Desktop/Dropbox/findtofun/baza.db',
+#        'NAME': 'C:/Users/Peter/Dropbox/findtofun/baza.db',
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
@@ -135,7 +135,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'app',
+    'events',
 #    'south',
     'social_auth',
     'fb',

@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 from django.views.generic import DetailView, ListView
-from app.models import Event
-from app.views import logout
+from events.models import Event
+from events.views import logout
 
 urlpatterns = patterns('',
     url(r'^events/$',
