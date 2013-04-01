@@ -42,7 +42,8 @@ class Event(models.Model):
         (u'8', u'Other'),
     )
 
-    host = models.ForeignKey(Host, null=True)
+#    host = models.ForeignKey(Host, null=True)
+    host = models.CharField(max_length=200)
     name = models.CharField(max_length=200)
     type = models.CharField(max_length=1, choices=EVENT_TYPES)
     start_time = models.DateTimeField(default=timezone.now()) #'%m/%d/%Y %H:%M' '10/25/2006 14:30'
@@ -74,8 +75,6 @@ class Event(models.Model):
     expired.short_description = 'Event expired ?'
 
     objects = EventManager()
-    
-
 
 
 class Ticket(models.Model):
