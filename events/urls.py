@@ -6,7 +6,7 @@ from events.views import logout
 urlpatterns = patterns('',
     url(r'^events/$',
         ListView.as_view(
-            queryset=Event.objects.order_by('-start_time')[:10],
+            queryset=Event.objects.order_by('-start_time')[:50],
             context_object_name='latest_events_list',
             template_name='events.html'),
         name='events'),
