@@ -16,6 +16,5 @@
 
 	__https://localhost:8443__
 
-Pomoč v angleščini:
-	
-	_http://www.ianlewis.org/en/testing-https-djangos-development-server_
+Pomoč v angleščini:  
+<http://www.ianlewis.org/en/testing-https-djangos-development-server>
