@@ -1,4 +1,3 @@
-    # Django settings for findtofun project.
 import re, os
 
 DEBUG = True
@@ -13,9 +12,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-#        #'NAME': 'C:/Users/Nejc/Dropbox/findtofun/tftdb.db',  # Or path to database file if using sqlite3.
-        'NAME': '/Users/TipyTop/Desktop/Dropbox/findtofun/baza.db',
-#        'NAME': 'C:/Users/Peter/Dropbox/findtofun/baza.db',
+        'NAME': 'baza.db',
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
@@ -136,7 +133,6 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'events',
-#    'south',
     'social_auth',
     'fb',
 )
@@ -258,3 +254,8 @@ SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
 # facebook testing
 TEST_FACEBOOK_USER = 'testing_account'
 TEST_FACEBOOK_PASSWORD = 'password_for_testing_account'
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
