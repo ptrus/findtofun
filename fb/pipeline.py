@@ -10,13 +10,13 @@ def write_extra_details(request, *args, **kwargs):
 
     graph = GraphAPI(response.get("access_token"))
     query = """
-        "SELECT eid, name, host, venue, location, start_time, end_time, "
-            "update_time FROM event "
+        SELECT eid, name, host, venue, location, start_time, end_time,
+             update_time FROM event
 
-        "WHERE eid IN (SELECT eid FROM event_member WHERE "
-            "(uid IN (SELECT uid2 FROM friend WHERE uid1 = me()) "
-                 "OR uid = me())) "
-        "AND start_time > now() LIMIT 20"
+         WHERE eid IN (SELECT eid FROM event_member WHERE
+             (uid IN (SELECT uid2 FROM friend WHERE uid1 = me())
+                 OR uid = me()))
+         AND start_time > now() LIMIT 20
         """
 
     query_results = graph.fql(query)
