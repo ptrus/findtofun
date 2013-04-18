@@ -1,4 +1,5 @@
-import re, os
+import re
+import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -11,13 +12,13 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'baza.db',
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+        'HOST': '',
+        'PORT': '',
     }
 }
 
@@ -83,7 +84,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -93,11 +94,11 @@ SECRET_KEY = 'rlhx#ek24br(*m%1j(h*xtkolk*%tcj5)d15i(phqf7-@t4ny0'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    # 'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
-#    'fb.middleware.SSLMiddleware',
+    # 'fb.middleware.SSLMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -115,8 +116,9 @@ WSGI_APPLICATION = 'findtofun.wsgi.application'
 
 PROJECT_DIR = os.path.dirname(__file__)
 TEMPLATE_DIRS = (
-     os.path.join(PROJECT_DIR, 'templates'),
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    os.path.join(PROJECT_DIR, 'templates')
+    # Put strings here, like "/home/html/django_templates"
+    #   or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
@@ -125,7 +127,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-#    'django.contrib.sites',
+    # 'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
@@ -183,12 +185,13 @@ IGNORABLE_404_URLS = (
     re.compile(r'^/robots\.txt$'),
 )
 
-#DEFAULT_EXCEPTION_REPORTER_FILTER = 'path.to.your.CustomExceptionReporterFilter'
+#DEFAULT_EXCEPTION_REPORTER_FILTER =
+    # 'path.to.your.CustomExceptionReporterFilter'
 USE_ETAGS = True
 
-#===============================================================================
-# Django Social Auth
-#===============================================================================
+#====================#
+# Django Social Auth #
+#====================#
 
 AUTH_USER_MODEL = "fb.MyUser"
 
@@ -216,20 +219,20 @@ SOCIAL_AUTH_PIPELINE = (
     'fb.pipeline.write_extra_details',
 )
 
-FACEBOOK_APP_ID              = '436119486471234'
-FACEBOOK_API_SECRET          = '02124a5e2b45255e1aa3bb9330e3fbe9'
+FACEBOOK_APP_ID = '436119486471234'
+FACEBOOK_API_SECRET = '02124a5e2b45255e1aa3bb9330e3fbe9'
 FACEBOOK_EXTENDED_PERMISSIONS = [
-     'create_event',
-     'rsvp_event',
+    'create_event',
+    'rsvp_event',
 ]
 
-LOGIN_URL          = '/login'
+LOGIN_URL = '/login'
 
 LOGIN_REDIRECT_URL = '/done'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/done?type=social'
 FACEBOOK_SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/done?type=social&backend=fb'
 
-LOGIN_ERROR_URL    = '/error?type=login'
+LOGIN_ERROR_URL = '/error?type=login'
 FACEBOOK_LOGIN_ERROR_URL = "/error?type=login&backend=fb"
 SOCIAL_AUTH_BACKEND_ERROR_URL = '/error?type=backend'
 FACEBOOK_SOCIAL_AUTH_BACKEND_ERROR_URL = "/error?type=backend&backend=fb"
@@ -242,7 +245,7 @@ FACEBOOK_SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/disconnect?backend=fb'
 SOCIAL_AUTH_INACTIVE_USER_URL = '/social'
 FACEBOOK_SOCIAL_AUTH_INACTIVE_USER_URL = '/social?type=inactive&backend=fb'
 
-SOCIAL_AUTH_COMPLETE_URL_NAME  = 'socialauth_complete'
+SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
 
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 SOCIAL_AUTH_URLOPEN_TIMEOUT = 30

@@ -3,7 +3,8 @@ from django.views.generic import DetailView, ListView
 from events.models import Event
 from events.views import logout
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^events/$',
         ListView.as_view(
             queryset=Event.objects.order_by('-start_time')[:50],

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{% block title %}FindtoFun{% endblock %}</title>
+    <title>{% block title %}findtofun{% endblock %}</title>
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
@@ -29,69 +29,74 @@
         .error {padding-left: 30px;}
         #forkme {position: absolute; top: 0; right: 0;}
         pre {display: inline;}
+        a.facebook-btn {
+        	background-color:#5f78ab;
+        	padding:4px 5px;
+        	font:11px 'lucida grande',tahoma,verdana,arial,sans-serif;
+        	cursor:pointer;
+        	border:1px solid #29447e;
+        	color:#fff;
+        	font-weight:bold; 
+        }
     </style>
 
-    {% block stylesheets %}
-        <script type="text/javascript">
-            if (window.location.hash == '#_=_') {
-                window.location.hash = '';
-            }
-        </script>
-
+    {% block stylesheets %}{% endblock %}
+    {% block script %}
+    <script type="text/javascript">
+        if (window.location.hash == '#_=_') {
+            window.location.hash = '';
+        }
+    </script>
     {% endblock %}
-    {% block script %}{% endblock %}
 </head>
 <body>
-{% if user.is_authenticated %}
-    <div id="header">
+	<div id="header">
+		<b>findtofun</b>
+		<input class="span2" type="text" placeholder="Search events, places, days">
+		
+		{% if user.is_authenticated %}
         <form class="navbar-form pull-right" align="left">
-            <b>FindToFun</b>
-            <input class="span2" type="text" placeholder="Search events, places, days">
             <a type="submit" href="/" class="btn"> {{ user.username }} </a>
             <a type="submit" href="/logout" class="btn"> Logout </a>
         </form>
-    </div>
-{% else %}
-    <div id="header">
+		{% else %}
         <form method="post" action="{% url 'django.contrib.auth.views.login' %}" class="navbar-form pull-right" align="left" >
             {% csrf_token %}
-            <b>FindToFun</b>
-            <input class="span2" type="text" placeholder="Search events, places, days">
-            <a type="subit" href="/login/facebook/" style="background-color:#5f78ab; padding:4px 5px; font:11px 'lucida grande',tahoma,verdana,arial,sans-serif; cursor:pointer;  border:1px solid #29447e; color:#fff; font-weight:bold; "  />Login with Facebook</a>
+            <a type="subit" href="/login/facebook/" class="facebook-btn">Login with Facebook</a>
             {{ form.username }}
             {{ form.password }}
             <input type="submit" value="Login" />
         </form>
-    </div>
-{% endif %}
-<h2 id="heading">{% block heading %}{% endblock %}</h2>
-{% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
+		{% endif %}
+	</div>
+	
+	<h2 id="heading">{% block heading %}{% endblock %}</h2>
+	{% if messages %}
+    	<ul class="messages">
+    	{% for message in messages %}
             <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
         {% endfor %}
-    </ul>
-{% endif %}
+    	</ul>
+	{% endif %}
 
-<div id="content">
-    {% block content %}{% endblock %}
-</div>
+	<div id="content">
+	    {% block content %}{% endblock %}
+	</div>
 
-<div id="footer" align="center">
+	<div id="footer" align="center">
     {% block sidebar %}
-        <p>&copy; FindToFun 2013</p>
-        <a href="/">[Home]   </a>
+        <p>&copy; findtofun 2013</p>
+        <a href="/">[Home]</a>
         {% if user.is_authenticated %}
         {% else %}
-            <a href="/signup/">[SignUp]   </a>
+            <a href="/signup/">[SignUp]</a>
         {% endif %}
-        <a href="/">[Advertise]   </a>
-        <a href="/contact/">[Contact]   </a>
-        <a href="/events/">[Events]   </a>
-        <a href="http://www.github.com">[GitHub]   </a>
+<!--         <a href="/">[Advertise]</a> -->
+        <a href="/contact/">[Contact]</a>
+        <a href="/events/">[Events]</a>
+        <a href="http://github.com/ipri2013/findtofun">[GitHub]</a>
 
     {% endblock %}
-</div>
-
+	</div>
 </body>
 </html>	

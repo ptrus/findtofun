@@ -6,11 +6,13 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 from fb.models import MyUser
 
+
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Password confirmation',
+                                widget=forms.PasswordInput)
 
     class Meta:
         model = MyUser
@@ -58,19 +60,21 @@ class MyUserAdmin(UserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('username', 'email', 'first_name', 'last_name', 'gender', 'is_admin')
+    list_display = ('username', 'email', 'first_name',
+                    'last_name', 'gender', 'is_admin')
     list_filter = ('is_admin',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('username', 'first_name', 'last_name', 'gender')}),
+        ('Personal info', {'fields': ('username', 'first_name',
+                           'last_name', 'gender')}),
         ('Permissions', {'fields': ('is_admin',)}),
         ('Important dates', {'fields': ('last_login',)}),
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'username', 'first_name', 'last_name', 'gender', 'password1', 'password2')}
-        ),
+            'fields': ('email', 'username', 'first_name', 'last_name',
+                       'gender', 'password1', 'password2')}),
     )
     search_fields = ('email',)
     ordering = ('email',)

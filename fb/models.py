@@ -4,11 +4,14 @@ from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
 
+
 class MyUserManager(BaseUserManager):
-    def create_user(self, username, email=None, password=None, first_name=None, last_name=None, gender=None, **extra_fields):
-        """
-        Creates and saves a User with the given fields.
-        """
+    """
+    Creates and saves a User with the given fields.
+    """
+    def create_user(self, username, email=None, password=None, first_name=None,
+                    last_name=None, gender=None, **extra_fields):
+
         if not username:
             raise ValueError('Users must have a username')
 
@@ -20,15 +23,16 @@ class MyUserManager(BaseUserManager):
             gender=gender or 'unknown'
         )
 
-
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username, email, password, first_name=None, last_name=None, gender=None):
-        """
-        Creates and saves a superuser with the given fields.
-        """
+    """
+    Creates and saves a superuser with the given fields.
+    """
+    def create_superuser(self, username, email, password, first_name=None,
+                         last_name=None, gender=None):
+
         user = self.create_user(
             username,
             email,
@@ -48,7 +52,7 @@ class MyUser(AbstractBaseUser):
     first_name = models.CharField(max_length=255, blank=True)
     last_name = models.CharField(max_length=255, blank=True)
     gender = models.CharField(max_length=20, blank=True)
-    
+
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
