@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 
-from fb.views import home, done, logout, error
+from social_custom.views import home, done, logout, error
 
 urlpatterns = patterns(
     '',

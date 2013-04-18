@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from fb.models import MyUser
+from social_custom.models import MyUser
 
 
 class UserCreationForm(forms.ModelForm):
