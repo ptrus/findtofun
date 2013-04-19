@@ -1,28 +1,27 @@
-# Django settings for findtofun project.
-import re, os
+import re
+import os
+
+APP_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.abspath(os.path.join(APP_DIR, os.pardir))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Peter Us', 'peter.us.99@gmail.com'),
-    ('Nejc Silc', 'nejc.silc@siol.com'),
-    ('Tomislav Slijepcevic', 'tomi.slij@gmail.com'),
+    # ('Your Name', 'your_email@example.com'),
 )
 
 MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-#        'NAME': 'C:/Users/Nejc/Dropbox/findtofun/tftdb.db',  # Or path to database file if using sqlite3.
-        'NAME': '/Users/TipyTop/Desktop/Dropbox/findtofun/baza.db',
-        #'NAME': 'C:/???/findtofun/ftfdb.db',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'baza.db',
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+        'HOST': '',
+        'PORT': '',
     }
 }
 
@@ -32,7 +31,7 @@ DATABASES = {
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = '*'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -70,17 +69,18 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in events' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = ""
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL = '/static/'
+STATIC_URL = '/s/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(BASE_DIR, "static/app"),
 )
 
 # List of finder classes that know how to find static files in
@@ -88,7 +88,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -98,10 +98,11 @@ SECRET_KEY = 'rlhx#ek24br(*m%1j(h*xtkolk*%tcj5)d15i(phqf7-@t4ny0'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    # 'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
+    # 'social_custom.middleware.SSLMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -109,6 +110,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_custom.middleware.ExampleSocialAuthExceptionMiddleware',
 )
 
 ROOT_URLCONF = 'findtofun.urls'
@@ -116,29 +118,29 @@ ROOT_URLCONF = 'findtofun.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'findtofun.wsgi.application'
 
-PROJECT_DIR = os.path.dirname(__file__)
-TEMPLATE_DIRS = (
-     os.path.join(PROJECT_DIR, 'templates'),
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+TEMPLATE_DIRS = (    
+    # Put strings here, like "/home/html/django_templates"
+    #   or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(BASE_DIR, "static/app/templates"),
 )
 
 INSTALLED_APPS = (
-    'django.contrib.auth',
+    # 'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-#    'django.contrib.sites',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'app',
-    'south',
+    'events',
     'social_auth',
-    'fb',
+    'social_custom',
+    'tastypie',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -187,12 +189,15 @@ IGNORABLE_404_URLS = (
     re.compile(r'^/robots\.txt$'),
 )
 
-#DEFAULT_EXCEPTION_REPORTER_FILTER = 'path.to.your.CustomExceptionReporterFilter'
+#DEFAULT_EXCEPTION_REPORTER_FILTER =
+    # 'path.to.your.CustomExceptionReporterFilter'
 USE_ETAGS = True
 
-#===============================================================================
-# Django Social Auth
-#===============================================================================
+#====================#
+# Django Social Auth #
+#====================#
+
+AUTH_USER_MODEL = "social_custom.MyUser"
 
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.facebook.FacebookBackend',
@@ -208,15 +213,56 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'social_auth.context_processors.social_auth_by_type_backends',
 )
 
-FACEBOOK_APP_ID              = '436119486471234'
-FACEBOOK_API_SECRET          = '02124a5e2b45255e1aa3bb9330e3fbe9'
+SOCIAL_AUTH_PIPELINE = (
+    'social_auth.backends.pipeline.social.social_auth_user',
+    #'social_auth.backends.pipeline.associate.associate_by_email',
+    'social_auth.backends.pipeline.user.get_username',
+    'social_auth.backends.pipeline.user.create_user',
+    'social_auth.backends.pipeline.social.associate_user',
+    'social_auth.backends.pipeline.user.update_user_details',
+    'social_custom.pipeline.write_extra_details',
+)
 
-LOGIN_URL          = '/fb/'
-LOGIN_REDIRECT_URL = '/done/'
-LOGIN_ERROR_URL    = '/error/'
+FACEBOOK_APP_ID = '436119486471234'
+FACEBOOK_API_SECRET = '02124a5e2b45255e1aa3bb9330e3fbe9'
+FACEBOOK_EXTENDED_PERMISSIONS = [
+    'create_event',
+    'rsvp_event',
+]
+
+LOGIN_URL = '/login'
+
+LOGIN_REDIRECT_URL = '/done'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/done?type=social'
+FACEBOOK_SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/done?type=social&backend=fb'
+
+LOGIN_ERROR_URL = '/error?type=login'
+FACEBOOK_LOGIN_ERROR_URL = "/error?type=login&backend=fb"
+SOCIAL_AUTH_BACKEND_ERROR_URL = '/error?type=backend'
+FACEBOOK_SOCIAL_AUTH_BACKEND_ERROR_URL = "/error?type=backend&backend=fb"
+
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/done?type=newUser'
+FACEBOOK_SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/done?type=newUser&backend=fb'
+SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/disconnect'
+FACEBOOK_SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/disconnect?backend=fb'
+
+SOCIAL_AUTH_INACTIVE_USER_URL = '/social'
+FACEBOOK_SOCIAL_AUTH_INACTIVE_USER_URL = '/social?type=inactive&backend=fb'
+
+SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
 
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 SOCIAL_AUTH_URLOPEN_TIMEOUT = 30
 SOCIAL_AUTH_FORCE_POST_DISCONNECT = True
 SOCIAL_AUTH_SESSION_EXPIRATION = False
 SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
+# SOCIAL_AUTH_CREATE_USERS = False
+
+# facebook testing
+TEST_FACEBOOK_USER = 'testing_account'
+TEST_FACEBOOK_PASSWORD = 'password_for_testing_account'
+
+try:
+    from settings_local import *
+except ImportError:
+    pass
