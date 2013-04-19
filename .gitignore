@@ -1,3 +1,4 @@
+*.db
 settings_local.py
 .settings
 *.pyc
