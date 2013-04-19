@@ -1,4 +1,5 @@
-local_settings.py
+*.db
+settings_local.py
 .settings
 *.pyc
 .DS_Store
