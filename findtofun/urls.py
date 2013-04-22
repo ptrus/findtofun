@@ -29,6 +29,5 @@ urlpatterns = patterns(
         'django.contrib.auth.views.login',
         {'template_name': 'home.html'}),
 
-    url(r'^events', include('events.urls')),
     url(r'', include('social_custom.urls')),
 )
