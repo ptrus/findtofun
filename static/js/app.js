@@ -16,6 +16,22 @@ config(['$routeProvider', function($routeProvider) {
 		templateUrl: '/s/partials/event_details.html',
 		controller: EventDetailsCtrl
 	})
+		.when('/contact', {
+		templateUrl: '/s/partials/contact.html',
+		controller: ContactCtrl
+	})
+		.when('/done', {
+		templateUrl: '/s/partials/done.html',
+		controller: FtfCtrl
+	})
+		.when('/error', {
+		templateUrl: '/s/partials/error.html',
+		controller: FtfCtrl
+	})
+		.when('/logout', {
+		templateUrl: '/s/partials/logout.html',
+		controller: FtfCtrl
+	})
 		.otherwise({
 		redirectTo: '/'
 	});
