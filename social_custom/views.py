@@ -11,7 +11,9 @@ def home(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect('done')
     else:
-        return render_to_response('home.html', RequestContext(request))
+        return render_to_response(
+            'index.html',
+            RequestContext(request))
 
 
 @login_required
@@ -20,14 +22,18 @@ def done(request):
     ctx = {
         'last_login': request.session.get('social_auth_last_login_backend')
     }
-    return render_to_response('done.html', ctx, RequestContext(request))
+    return render_to_response(
+        'done.html',
+        ctx, RequestContext(request))
 
 
 def error(request):
     """Error view"""
     messages = get_messages(request)
-    return render_to_response('error.html', {'messages': messages},
-                              RequestContext(request))
+    return render_to_response(
+        'error.html',
+        {'messages': messages},
+        RequestContext(request))
 
 
 def logout(request):
