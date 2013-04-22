@@ -80,7 +80,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(BASE_DIR, "static/app"),
+    os.path.join(BASE_DIR, "static"),
 )
 
 # List of finder classes that know how to find static files in
@@ -123,7 +123,7 @@ TEMPLATE_DIRS = (
     #   or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(BASE_DIR, "static/app/templates"),
+    os.path.join(BASE_DIR, "static/templates"),
 )
 
 INSTALLED_APPS = (
@@ -210,7 +210,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     'django.core.context_processors.media',
     'django.contrib.messages.context_processors.messages',
+    'social_auth.context_processors.social_auth_by_name_backends',
+    'social_auth.context_processors.social_auth_backends',
     'social_auth.context_processors.social_auth_by_type_backends',
+    'social_auth.context_processors.social_auth_login_redirect',
 )
 
 SOCIAL_AUTH_PIPELINE = (
@@ -230,37 +233,36 @@ FACEBOOK_EXTENDED_PERMISSIONS = [
     'rsvp_event',
 ]
 
-LOGIN_URL = '/login'
+LOGIN_URL = '/accounts/login/'
+LOGOUT_URL = '/accounts/logout/'
+LOGIN_REDIRECT_URL = '/accounts/profile/'
+LOGIN_ERROR_URL = '/account/error'
 
-LOGIN_REDIRECT_URL = '/done'
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/done?type=social'
-FACEBOOK_SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/done?type=social&backend=fb'
+SOCIAL_AUTH_BACKEND_ERROR_URL = (
+    LOGIN_ERROR_URL,
+    '?type=backend')
 
-LOGIN_ERROR_URL = '/error?type=login'
-FACEBOOK_LOGIN_ERROR_URL = "/error?type=login&backend=fb"
-SOCIAL_AUTH_BACKEND_ERROR_URL = '/error?type=backend'
-FACEBOOK_SOCIAL_AUTH_BACKEND_ERROR_URL = "/error?type=backend&backend=fb"
+FACEBOOK_SOCIAL_AUTH_BACKEND_ERROR_URL = (
+    SOCIAL_AUTH_BACKEND_ERROR_URL,
+    "&backend=fb")
 
-SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/done?type=newUser'
-FACEBOOK_SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/done?type=newUser&backend=fb'
-SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/disconnect'
-FACEBOOK_SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/disconnect?backend=fb'
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = (
+    LOGIN_REDIRECT_URL,
+    '?type=newUser')
 
-SOCIAL_AUTH_INACTIVE_USER_URL = '/social'
-FACEBOOK_SOCIAL_AUTH_INACTIVE_USER_URL = '/social?type=inactive&backend=fb'
+SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/account/disconnect'
+SOCIAL_AUTH_INACTIVE_USER_URL = '/account/inactive'
 
 SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
-
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 SOCIAL_AUTH_URLOPEN_TIMEOUT = 30
 SOCIAL_AUTH_FORCE_POST_DISCONNECT = True
 SOCIAL_AUTH_SESSION_EXPIRATION = False
 SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
-# SOCIAL_AUTH_CREATE_USERS = False
 
 # facebook testing
-TEST_FACEBOOK_USER = 'testing_account'
-TEST_FACEBOOK_PASSWORD = 'password_for_testing_account'
+TEST_FACEBOOK_USER = 'admin1'
+TEST_FACEBOOK_PASSWORD = 'admin1'
 
 try:
     from settings_local import *

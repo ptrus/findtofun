@@ -6,6 +6,10 @@ function FtfCtrl($scope) {
 
 }
 
+function ContactCtrl($scope) {
+
+}
+
 function EventsListCtrl($scope, Events) {
 	$scope.events = Events.query();
 }
