@@ -7,28 +7,85 @@
 {% endblock %}
 
 {% block block-scripts %}
-	<script src="{% static 'lib/angular/angular.js' %}"></script>
-	<script src="{% static 'lib/angular/angular-resource.js' %}"></script>
+    <script src="{% static 'lib/jquery.js' %}"></script>
+	<script src="{% static 'lib/angular.js' %}"></script>
+	<script src="{% static 'lib/angular-resource.js' %}"></script>
 	<script src="{% static 'js/app.js' %}"></script>
 	<script src="{% static 'js/services.js' %}"></script>
 	<script src="{% static 'js/controllers.js' %}"></script>
 	<script src="{% static 'js/filters.js' %}"></script>
 	<script src="{% static 'js/directives.js' %}"></script>
+
+
+    <script src="{% static 'js/details.js' %}"></script>
+
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCh-nJqg7ms9S7c3Ir7DE4C2ck9VMPoKyk&sensor=false"></script>
+    <script src="{% static 'js/googlemaps.js' %}"></script>
+
+    <script src="{% static 'js/jqwidgets/jquery-1.8.3.min.js' %}"></script>
+    <script src="{% static 'js/jqwidgets/jqxcore.js' %}"></script>
+    <script src="{% static 'js/jqwidgets/jqxdatetimeinput.js' %}"></script>
+    <script src="{% static 'js/jqwidgets/jqxcalendar.js' %}"></script>
+    <script src="{% static 'js/jqwidgets/globalization/globalize.js' %}"></script>
 {% endblock %}
 
 {% block content %}	
 
-	{% if user.is_authenticated %}
-		<form class="navbar-form pull-right" align="left">
-		    <a> {{ user.username }} </a>
-		    <a href="{% url "socialauth_disconnect" "facebook" %}"> Disconnect </a>
-		    <a href="account/logout/"> Logout </a>
-		</form>
-	{% else %}
-			<a type="submit" href="{% url "socialauth_begin" "facebook" %}?
-				{{ redirect_querystring }}" class="facebook-btn">Login with Facebook</a>
-	{% endif %}
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#">FindToFun</a>
+		  <form class="navbar-search pull-left">
+		    <input type="text" class="span4 search-query" placeholder="Search events, places, days">
+		  </form>
 
+        {% if user.is_authenticated %}
+          <div id="prijavljen" class="pull-right loginDiv">
+			  <ul class="nav pull-right">
+				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, {{ user.username }} <b class="caret"></b></a>
+				  <ul class="dropdown-menu">
+					<li><a href="{% url "socialauth_disconnect" "facebook" %}"> Disconnect </a></li>
+					<li class="divider"></li>
+					<li><a id="logout" href="account/logout/"><i class="icon-off"></i> Logout</a></li>
+				  </ul>
+				</li>
+  			  </ul>
+			</div>
+		{% else %}
+		    <div class="nav-collapse collapse">
+			<div id="odjavljen" class="pull-right">
+			  <ul class="nav pull-right">
+                <li><a href="#/signup">Sign Up</a></li>
+                <li class="divider-vertical"></li>
+				<li class="dropdown">
+				  <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
+				  <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+					<form method="post" action="login" accept-charset="UTF-8">
+					  <input style="margin-bottom: 15px;" type="text" placeholder="Username" id="username" name="username">
+					  <input style="margin-bottom: 15px;" type="password" placeholder="Password" id="password" name="password">
+					  <input style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" id="remember-me" value="1">
+					  <label class="string optional" for="user_remember_me"> Remember me</label>
+					  <input class="btn btn-primary btn-block" type="button" id="sign-in" value="Sign In">
+					  <label style="text-align:center;margin-top:5px">or</label>
+					  <a href="{% url "socialauth_begin" "facebook" %}?{{ redirect_querystring }}">
+                          <input class="btn btn-primary btn-block" type="button" id="sign-in-facebook" value="Sign In with Facebook">
+					  </a>
+                    </form>
+				  </div>
+				</li>
+			  </ul>
+			</div>
+		{% endif %}
+
+          </div>
+        </div>
+      </div>
+    </div>
 
 	<h2 id="heading">{% block heading %}{% endblock %}</h2>
 	{% if messages %}
