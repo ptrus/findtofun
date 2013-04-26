@@ -1,0 +1,62 @@
+
+/*Filters (up & down)*/
+.affix {
+  position: fixed;
+  left:0px;
+}
+.bodyDown{
+	margin-top: 50px;
+}
+.navigationBtnGroup {
+	width:90%;
+}
+.groubBtn{
+	width:33%;
+	margin-bottom: 1em;
+	margin-top: -3em;
+}
+.mainP {
+	margin-top:auto;
+	margin-bottom: auto;
+	margin-left:auto;
+	margin-right:auto;
+
+}
+#mapsdiv,
+#calendardiv {
+	display:none;
+}
+.btnE {
+	margin-top: 0.5em;
+}
+.infoE {
+	margin-bottom: 1em;
+	margin-top: 1em;
+	margin-left: 3em;
+	float:left;
+}
+
+.opisE {
+	position:absolute;
+}	
+
+.eventsInfo {
+	display:none;
+	overflow: hidden;
+}
+
+.calendarWidget,
+.mapsGoogle,
+.toptenCoverPhoto {
+	width:100%;
+	height:350px;
+}
+
+.loginDiv {
+	display: none;
+}
+
+.footCon {
+	margin-left:0.1em;
+	margin-right:0.1em;
+}
