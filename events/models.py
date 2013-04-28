@@ -26,6 +26,28 @@ class Event(models.Model):
         return u'%s' % (self.name)
 
 
+def get_modified_stuff(dict1, dict2):
+    modified = {}
+    for key, value in dict2.items():
+        if value is not dict1[key]:
+            modified[key] = dict2[key]
+
+    return modified
+
+
+def process_modified_stuff(model_instance, keys, data):
+    dict1 = {}
+    for key in keys:
+        value = getattr(model_instance, key)
+        dict1[key] = value
+
+    modified = get_modified_stuff(dict1, data)
+    for key, value in modified.items():
+        setattr(model_instance, key, value)
+
+    model_instance.save(update_fields=modified.keys())
+    return modified.keys()
+
 class FbUserManager(models.Manager):
     def create_user(self, **kwargs):
 
@@ -43,6 +65,13 @@ class FbUserManager(models.Manager):
                 kwargs["age_range_max"] = age_range.get("max", 0)
 
         return self.model(**kwargs)
+
+    def update_user(self, user, **user_data):
+        keys = self.model._meta.get_all_field_names()
+        # Deletion needed, otherwise if throws error:
+        #   AttributeError: 'FbUser' object has no attribute 'fbevent'
+        del keys[keys.index("fbevent")]
+        return process_modified_stuff(user, keys, user_data)
 
 
 class FbEventManager(models.Manager):
@@ -77,6 +106,13 @@ class FbEventManager(models.Manager):
             kwargs["privacy"] = ""
 
         return self.model(**kwargs)
+
+    def update_event(self, event, **event_data):
+        keys = self.model._meta.get_all_field_names()
+        # Deletion needed, otherwise if throws error:
+        #   AttributeError: 'FbUser' object has no attribute 'fbevent'
+        # del keys[keys.index("fbevent")]
+        return process_modified_stuff(event, keys, event_data)
 
 
 class FbLocationManager(models.Manager):
@@ -126,7 +162,7 @@ class FbEvent(models.Model):
     pic_small = models.URLField()
     pic_square = models.URLField()
     privacy = models.CharField(max_length=F_MAX_LENGTH)
-    start_time = models.DateTimeField()
+    start_time = models.DateTimeField(null=True)
     ticket_uri = models.URLField(blank=True)
     timezone = models.CharField(max_length=F_MAX_LENGTH)
     unsure_count = models.PositiveIntegerField()
