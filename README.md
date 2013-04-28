@@ -18,3 +18,8 @@
 
 Pomoč v angleščini:  
 <http://www.ianlewis.org/en/testing-https-djangos-development-server>
+
+#Navodila za Celery
+<http://blog.azreda.org/2012/09/asynchronous-tasks-complete-celery-with.html>
+
+<http://docs.celeryproject.org/en/latest/django/first-steps-with-django.html>
