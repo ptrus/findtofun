@@ -141,6 +141,7 @@ INSTALLED_APPS = (
     'social_auth',
     'social_custom',
     'tastypie',
+    'djcelery'
 )
 
 # A sample logging configuration. The only tangible logging
@@ -263,6 +264,8 @@ SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
 # facebook testing
 TEST_FACEBOOK_USER = 'admin1'
 TEST_FACEBOOK_PASSWORD = 'admin1'
+
+BROKER_URL = 'amqp://guest:guest@localhost:5672/'
 
 try:
     from settings_local import *
