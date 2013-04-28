@@ -12,7 +12,7 @@ angular.module('ftfServices', ['ngResource'])
     });
 })
     .factory('SingleEvent', function($resource) {
-    return $resource('/api/v1/event/12', {}, {
+    return $resource('/api/v1/eventaa/12', {}, {
         query: {
             method: 'GET',
             isArray: false

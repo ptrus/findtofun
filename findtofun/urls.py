@@ -9,7 +9,7 @@ admin.autodiscover()
 
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'base-ang.html')
 
 v1_api = Api(api_name='v1')
 v1_api.register(eventResources.EventResource())
