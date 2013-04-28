@@ -1,35 +1,48 @@
 if (window.location.hash == '#_=_') {
 	window.location.hash = '';
 }
+/*BUTTON SHOW SOME DETAILS*/
+//TO-DO one function for all buttons
+$('#btnEvent_3').on('click', function (e) {
+	$('#eventInfo_3').slideToggle("slow");
+});
 
-$('#top').on('click', function(e) {
+/*THREE WAY NAVIGATION*/
+$('#top').on('click', function (e) {
 	$('#topdiv').show();
+	$('#locationDiv').show();
+	$('#dateDiv').show();
 	$('#mapsdiv').hide();
 	$('#calendardiv').hide();
 });
-
-$('#maps').on('click', function(e) {
+$('#maps').on('click', function (e) {
 	$('#mapsdiv').show();
 	$('#calendardiv').hide();
 	$('#topdiv').hide();
+	$('#dateDiv').show();
+	$('#locationDiv').hide();
 	initialize();
 });
-
-$('#calendar').on('click', function(e) {
-	$('#datetimepicker').show();
+$('#calendar').on('click', function (e) {
+	$('#calendardiv').show();
+	$('#locationDiv').show();
 	$('#topdiv').hide();
 	$('#mapsdiv').hide();
-	$('#datetimepicker').datetimepicker({
-		format: 'dd/MM/yyyy hh:mm:ss',
-	});
-});
+	$('#dateDiv').hide();
+    $('#datetimepicker').datetimepicker({
+    format: 'dd/MM/yyyy hh:mm:ss'
+    });
 
-$('#sign-in').on('click', function (e) {
-	$('#odjavljen').toggle("slow");
-	$('#prijavljen').toggle("slow");
 });
+/*END THREE WAY NAVIGATION*/
 
-$('#logout').on('click', function (e) {
-	$('#prijavljen').toggle("slow");
-	$('#odjavljen').toggle("slow");
+/*DATE - TIME  FILTER*/
+ $('#datetimepickerFrom').datetimepicker({
+	language: 'en',
+	pick12HourFormat: true
+ });
+ $('#datetimepickerTo').datetimepicker({
+	language: 'en',
+	pick12HourFormat: true
 });
+/*END DATE - TIME  FILTER*/

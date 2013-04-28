@@ -1,12 +1,32 @@
-<h1>Event details</h1>
-
-<h2>{{ singleEvent.name }}</h2>
-
-<ul>
-	<li><h3>Title: {{ singleEvent.name }}</h3></li>
-    <li><h3>Host:</h3> {{ singleEvent.host }}</li>
-    <li><h3>From:</h3> {{ singleEvent.start_time }}</li>
-    <li><h3>To:</h3> {{ singleEvent.end_time }}</li>
-</ul>
+	<div class="container pagination-centered">
+	  <div class="hero-unit framediv">
+		<img class="coverPhoto img-rounded" src="mambo.jpg" alt="">
+		<div class="eventtitle">:::{{ singleEvent.name }}  {{ singleEvent.start_time }} @ {{ singleEvent.host }}:::</div>
+		<textarea readonly> event description </textarea>
+        <div class="piechartdiv">
+		  <table>
+            <tbody>
+              <tr>
+                <th scope="row">Attending</th>
+                <td>45%</td>
+              </tr>
+              <tr>
+                <th scope="row">Declined</th>
+                <td>5%</td>
+              </tr>
+              <tr>
+                <th scope="row">Not replied</th>
+                <td>35%</td>
+              </tr>
+              <tr>
+                <th scope="row">Unsure</th>
+                <td>15%</td>
+              </tr>
+            </tbody>
+          </table>
+		  <div id="holder"></div>
+        </div>
+	  </div>
+	</div>
 
 <a href="#/events">Go back</a>

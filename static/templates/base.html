@@ -1,7 +1,7 @@
 {% load staticfiles %}<!DOCTYPE html>
 <html lang="en" {% block html_attributes %}{% endblock %}>
 <head>
-    <meta charset="utg-8">
+    <meta charset="utf-8">
     <title>{% block title %}FindToFun{% endblock %}</title>
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -11,18 +11,28 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-responsive.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-ftf.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/eventdetails.css' %}">
+
     {% block stylesheets %}{% endblock %}
-    
+
     <script type="text/javascript" src="{% static 'lib/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/bootstrap.min.js' %}"></script>
     {% block block-scripts %}{% endblock %}
     
 </head>
 <body {% block body_attributes %}{% endblock %}>
-	{% block content %}{% endblock %}
-	
+
+	{% block content %}
+
+	{% endblock %}
+
+    <script src="js/raphael-min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/pie.js" type="text/javascript" charset="utf-8"></script>
+
     <script type="text/javascript" src="{% static 'lib/bootstrap-datetimepicker.min.js' %}"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCh-nJqg7ms9S7c3Ir7DE4C2ck9VMPoKyk&sensor=false"></script>
     <script type="text/javascript" src="{% static 'js/findtofun.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/googlemaps.js' %}"></script>
     {% block noblock-scripts %}{% endblock %}
 </body>
 </html>	
