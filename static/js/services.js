@@ -4,15 +4,15 @@
 
 angular.module('ftfServices', ['ngResource'])
     .factory('Events', function($resource) {
-    return $resource('/api/v1/event', {}, {
-        query: {
-            method: 'GET',
-            isArray: false
-        }
-    });
-})
+        return $resource('/api/v1/event', {}, {
+            query: {
+                method: 'GET',
+                isArray: false
+            }
+        });
+    })
     .factory('SingleEvent', function($resource) {
-    return $resource('/api/v1/eventaa/12', {}, {
+    return $resource('/api/v1/singevent', {}, {
         query: {
             method: 'GET',
             isArray: false

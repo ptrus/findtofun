@@ -1,96 +1,100 @@
-<div class="row-fluid">
-  <div class="span2"></div>
-  <div class="span2 affix">
-    <div class="well sidebar-nav">
-      <h1>Filters</h1>
-      <ul class="nav nav-list">
-        <li class="nav-header">Types</li>
-        <label class="checkbox">
-          <input type="checkbox" value="option1" id="inlineCheckbox1"> Party
-        </label>
-        <label class="checkbox">
-          <input type="checkbox" value="option2" id="inlineCheckbox2"> Sport
-        </label>
-        <label class="checkbox">
-          <input type="checkbox" value="option3" id="inlineCheckbox3"> Music
-        </label>
-        <label class="checkbox">
-          <input type="checkbox" value="option3" id="inlineCheckbox3"> Koncert
-        </label>
-        <li class="nav-header">Rated</li>
-        <label class="checkbox">
-          <input type="checkbox" value="option1" id="inlineCheckbox1"> 1
-        </label>
-        <label class="checkbox">
-          <input type="checkbox" value="option2" id="inlineCheckbox2"> 2
-        </label>
-        <label class="checkbox">
-          <input type="checkbox" value="option3" id="inlineCheckbox3"> 3
-        </label>
-        <label class="checkbox">
-          <input type="checkbox" value="option3" id="inlineCheckbox3"> 4
-        </label>
-        <label class="checkbox">
-          <input type="checkbox" value="option3" id="inlineCheckbox3"> 5
-        </label>
-      </ul>
-    </div><!--/.well -->
-  </div><!--/span-->
-
-  <!-- three way  -->
-  <div class="span8 pagination-centered">
-    <div class="hero-unit">
-      <div class="btn-group navigationBtnGroup" data-toggle="buttons-radio">
-        <button id="top" class="btn active groubBtn" >Top 10</button>
-        <button id="maps" class="btn groubBtn">Map</button>
-        <button id="calendar" class="btn groubBtn">Calendar</button>
-      </div>
-
-      <div id="topdiv" class="mainP">
-        <div id="myCarousel" class="carousel slide">
-          <div class="carousel-inner">
-            <div class="item active">
-              <img class="toptenCoverPhoto img-rounded" src="" alt="">
+  <div ng-controller="EventListCtrl" class="container-fluid">
+    <div class="row-fluid">
+        <div class="span2"></div>
+      <div class="span2 affix hidden-phone">
+        <div class="well sidebar-nav">
+          <div class="filterHeading">Filters</div>
+          <ul class="nav nav-list">
+            <div ng-show="dateEnabled" id="dateDiv">
+              <li class="nav-header">FROM</li>
+              <div class="input-append">
+                <input ng-model="date" ui-date type="text" class="sizeFilterInput">
+                <span class="add-on" >
+                 <i class="icon-calendar"></i>
+                </span>
+              </div>
+              <li class="nav-header">TO</li>
+              <div class="input-append">
+                <input ng-model="date" type="text" class="sizeFilterInput" ui-date>
+                <span class="add-on">
+                  <i class="icon-calendar"></i>
+                </span>
+              </div>
             </div>
-            <div class="item">
-              <img class="toptenCoverPhoto img-rounded" src="" alt="">
+            <div ng-show="locationEnabled" id="locationDiv">
+              <li class="nav-header">LOCATION</li>
+              <div ng-controller="MapsSearchCtrl" class="input-append">
+                <input class="sizeFilterInput" type="text" id="search_address" value="">
+                <span class="add-on" ng-click="search()">
+                  <i class="icon-search"></i>
+                </span>
+              </div>
             </div>
-            <div class="item">
-              <img class="toptenCoverPhoto img-rounded" src="" alt="">
+          </ul>
+        </div><!--/.well -->
+      </div><!--/span-->
+
+      <div class="span8 pagination-centered">
+        <div class="hero-unit">
+
+          <div class="btn-group navigationBtnGroup" data-toggle="buttons-radio">
+            <button ng-click="toptenClicked()" ng-model="radioModel" btn-radio="'Left'" class="btn active groubBtn" >Top 10</button>
+            <button ng-click="googlemapsClicked()" ng-model="radioModel" btn-radio="'Middle'" class="btn groubBtn">Map</button>
+            <button ng-click="calendarClicked()" ng-model="radioModel" btn-radio="'Right'" class="btn groubBtn">Calendar</button>
+          </div>
+
+          <div ng-show="toptenEnabled" class="mainP">
+            <div ng-controller="CarouselDemoCtrl">
+              <carousel interval="myInterval">
+                <slide ng-repeat="slide in slides" active="slide.active">
+                  <img ng-src="{{slide.image}}" class="toptenCoverPhoto img-rounded">
+                </slide>
+              </carousel>
             </div>
           </div>
-          <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-          <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+
+          <div ng-show="googlemapsEnabled" class="mainP "> <!--/GOOGLE MAPS-->
+            <div ng-app='maptesting'>
+              <div ng-controller="MapCtrl">
+                <div id="map_canvas" ui-map="myMap" class="mapsGoogle" ui-options="mapOptions" ui-event="{'map-idle' : 'onMapIdle()'}"></div>
+                <div ng-repeat="marker in myMarkers" ui-map-marker="myMarkers[$index]" ui-event="{'map-click': 'markerClicked(marker)'}"></div>
+              </div>
+            </div>
+          </div>
+
+          <div ng-show="calendarEnabled" class="mainP"> <!--/JQWIDGET/ CALEDNAR-->
+            <div ng-model="date" ui-date style="font-size: 274%;"></div>
+          </div>
+          <div></div>
+
+          <ul ng-controller="EventButtonsCtrl" style="list-style:none;" class="buttonEventList">
+            <li ng-repeat="event in eventsList">
+              <button ng-click="toggleShow($index)" class="btn btnE btn-info btn-block">{{event.title}}</button>
+              <div ng-show="shouldShow($index)" class="eventsInfo">
+                <img class="infoE" src="infoMap.jpg">
+                <div align="left" class="smartinfoEventDiv">
+                  <ul type="none">
+                    <li class="smartinfoEvent">DURATION DATE</li>
+                    <div class="smartinfoEventData">22.3  -  23.3</div>
+                    <li class="smartinfoEvent">DURATION TIME</li>
+                    <div class="smartinfoEventData">21:00  -  6:00</div>
+                    <li class="smartinfoEvent">NUMBER OF  GUESTS</li>
+                    <div class="smartinfoEventData">3453</div>
+                    <li class="smartinfoEvent">CREATOR</li>
+                    <div class="smartinfoEventData">Cirkus</div>
+                    <li class="smartinfoEvent">LINKS</li>
+                    <ul type="none" class="smartinfoEventUl">
+                      <li><a href="#details" class="smartinfoEventLink">More details</a></li>
+                      <li><a href="https://www.google.com/maps?saddr=Ribnica&daddr=Ljubljana,+Slovenija&ie=UTF8&f=d&sort=def&hl=en" class="smartinfoEventLink">Get direction</a></li>
+                    </ul>
+                  </ul>
+                </div>
+              </div>
+            </li>
+          </ul>
+
         </div>
       </div>
-      <!-- GOOGLE MAPS -->
-      <div id="mapsdiv" class="mainP "> 
-        <div id="map-canvas" class="mapsGoogle"></div>
-      </div>
-      <!-- CALEDNAR -->
-      <div id="datetimepicker" class="input-append date">
-        <input type="text"></input>
-        <span class="add-on">
-          <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-        </span>
-      </div>
-
-      <ul style="list-style:none">
-        <li ng-repeat="event in events.objects">
-          <button id="btnEvent" class="btn btnE btn-info btn-block">{{event.name}}</button>
-          <div id="eventInfo" class="eventsInfo">
-            <img class="infoE" src="" alt="">
-            <ul>
-              <li>Start time</li>
-              <li>End time</li>
-              <li>Number of guests</li>
-              <li><a href="#details">More details</a></li>
-            </ul>
-          </div>
-        </li>
-      </ul>
 
     </div>
   </div>
-  <div class="span1"></div>
-</div>

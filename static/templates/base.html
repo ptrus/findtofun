@@ -1,28 +1,43 @@
-{% load staticfiles %}<!DOCTYPE html>
+{% load staticfiles %}
+<!DOCTYPE html>
 <html lang="en" {% block html_attributes %}{% endblock %}>
 <head>
-    <meta charset="utg-8">
+    <meta charset="utf-8">
     <title>{% block title %}FindToFun{% endblock %}</title>
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/startpage.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/angular-ui.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-responsive.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-ftf.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/eventdetails.css' %}">
+
+
     {% block stylesheets %}{% endblock %}
-    
-    <script type="text/javascript" src="{% static 'lib/jquery.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'lib/jquery/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/bootstrap/bootstrap.min.js' %}"></script>
     {% block block-scripts %}{% endblock %}
     
 </head>
 <body {% block body_attributes %}{% endblock %}>
-	{% block content %}{% endblock %}
-	
-    <script type="text/javascript" src="{% static 'lib/bootstrap-datetimepicker.min.js' %}"></script>
+
+	{% block content %}
+
+	{% endblock %}
+
+    <script type="text/javascript" src="{% static 'lib/angular/angular-ui.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/jquery/jquery-ui.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/bootstrap/ui-bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/angular-google-maps.js' %}"></script>
+
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCh-nJqg7ms9S7c3Ir7DE4C2ck9VMPoKyk&sensor=false"></script>
-    <script type="text/javascript" src="{% static 'js/findtofun.js' %}"></script>
+
     {% block noblock-scripts %}{% endblock %}
 </body>
 </html>	

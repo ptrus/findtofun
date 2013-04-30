@@ -2,8 +2,13 @@
 
 /* Application */
 
-angular.module('ftf', ['ftfServices']).
-config(['$routeProvider', function($routeProvider) {
+if (window.location.hash == '#_=_') {
+	window.location.hash = '';
+}
+
+var myApp = angular.module('ftf', ['ftfServices','ui.bootstrap', 'google-maps', 'ui']);
+
+myApp.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/', {
 		templateUrl: '/s/partials/index.html',
 		controller: FtfCtrl
