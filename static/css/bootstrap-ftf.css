@@ -37,10 +37,7 @@ a.facebook-btn {
 	width:100%;
 	margin-bottom:0.7em;
 }
-#mapsdiv,
-#calendardiv {
-	display:none;
-}
+
 .buttonEventList {
 	margin-left:2%;
 	margin-right:2%;
@@ -58,7 +55,6 @@ a.facebook-btn {
 }
 
 .eventsInfo {
-	display:none;
 	overflow: hidden;
 	color:#2f96b4;
 	border: 2px solid;
@@ -79,7 +75,9 @@ a.facebook-btn {
 	width:100%;
 	height:350px;
 }
-
+.angular-google-map {
+    display: block;
+}
 .footCon {
 	margin-left:0.1em;
 	margin-right:0.1em;
