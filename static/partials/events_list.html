@@ -1,100 +1,37 @@
-  <div ng-controller="EventListCtrl" class="container-fluid">
+  <div class="container-fluid">
     <div class="row-fluid">
-        <div class="span2"></div>
-      <div class="span2 affix hidden-phone">
-        <div class="well sidebar-nav">
-          <div class="filterHeading">Filters</div>
-          <ul class="nav nav-list">
-            <div ng-show="dateEnabled" id="dateDiv">
-              <li class="nav-header">FROM</li>
-              <div class="input-append">
-                <input ng-model="date" ui-date type="text" class="sizeFilterInput">
-                <span class="add-on" >
-                 <i class="icon-calendar"></i>
-                </span>
-              </div>
-              <li class="nav-header">TO</li>
-              <div class="input-append">
-                <input ng-model="date" type="text" class="sizeFilterInput" ui-date>
-                <span class="add-on">
-                  <i class="icon-calendar"></i>
-                </span>
-              </div>
-            </div>
-            <div ng-show="locationEnabled" id="locationDiv">
-              <li class="nav-header">LOCATION</li>
-              <div ng-controller="MapsSearchCtrl" class="input-append">
-                <input class="sizeFilterInput" type="text" id="search_address" value="">
-                <span class="add-on" ng-click="search()">
-                  <i class="icon-search"></i>
-                </span>
-              </div>
-            </div>
-          </ul>
-        </div><!--/.well -->
-      </div><!--/span-->
-
+      <div class="span2"></div>
       <div class="span8 pagination-centered">
-        <div class="hero-unit">
-
-          <div class="btn-group navigationBtnGroup" data-toggle="buttons-radio">
-            <button ng-click="toptenClicked()" ng-model="radioModel" btn-radio="'Left'" class="btn active groubBtn" >Top 10</button>
-            <button ng-click="googlemapsClicked()" ng-model="radioModel" btn-radio="'Middle'" class="btn groubBtn">Map</button>
-            <button ng-click="calendarClicked()" ng-model="radioModel" btn-radio="'Right'" class="btn groubBtn">Calendar</button>
-          </div>
-
-          <div ng-show="toptenEnabled" class="mainP">
-            <div ng-controller="CarouselDemoCtrl">
-              <carousel interval="myInterval">
-                <slide ng-repeat="slide in slides" active="slide.active">
-                  <img ng-src="{{slide.image}}" class="toptenCoverPhoto img-rounded">
-                </slide>
-              </carousel>
-            </div>
-          </div>
-
-          <div ng-show="googlemapsEnabled" class="mainP "> <!--/GOOGLE MAPS-->
-            <div ng-app='maptesting'>
-              <div ng-controller="MapCtrl">
-                <div id="map_canvas" ui-map="myMap" class="mapsGoogle" ui-options="mapOptions" ui-event="{'map-idle' : 'onMapIdle()'}"></div>
-                <div ng-repeat="marker in myMarkers" ui-map-marker="myMarkers[$index]" ui-event="{'map-click': 'markerClicked(marker)'}"></div>
-              </div>
-            </div>
-          </div>
-
-          <div ng-show="calendarEnabled" class="mainP"> <!--/JQWIDGET/ CALEDNAR-->
-            <div ng-model="date" ui-date style="font-size: 274%;"></div>
-          </div>
-          <div></div>
-
-          <ul ng-controller="EventButtonsCtrl" style="list-style:none;" class="buttonEventList">
-            <li ng-repeat="event in eventsList">
-              <button ng-click="toggleShow($index)" class="btn btnE btn-info btn-block">{{event.title}}</button>
-              <div ng-show="shouldShow($index)" class="eventsInfo">
-                <img class="infoE" src="infoMap.jpg">
-                <div align="left" class="smartinfoEventDiv">
-                  <ul type="none">
-                    <li class="smartinfoEvent">DURATION DATE</li>
-                    <div class="smartinfoEventData">22.3  -  23.3</div>
-                    <li class="smartinfoEvent">DURATION TIME</li>
-                    <div class="smartinfoEventData">21:00  -  6:00</div>
-                    <li class="smartinfoEvent">NUMBER OF  GUESTS</li>
-                    <div class="smartinfoEventData">3453</div>
-                    <li class="smartinfoEvent">CREATOR</li>
-                    <div class="smartinfoEventData">Cirkus</div>
-                    <li class="smartinfoEvent">LINKS</li>
-                    <ul type="none" class="smartinfoEventUl">
-                      <li><a href="#details" class="smartinfoEventLink">More details</a></li>
-                      <li><a href="https://www.google.com/maps?saddr=Ribnica&daddr=Ljubljana,+Slovenija&ie=UTF8&f=d&sort=def&hl=en" class="smartinfoEventLink">Get direction</a></li>
-                    </ul>
-                  </ul>
-                </div>
-              </div>
-            </li>
-          </ul>
-
-        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Start time</th>
+              <th>Attending</th>
+              <th>Unsure</th>
+              <th>Declined</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="event in fbevents.objects">
+              <td>{{$index + 1}}</td>
+              <td>{{event.name}}</td>
+              <td>{{event.start_time}}</td>
+              <td>{{event.attending_count}}</td>
+              <td>{{event.unsure_count}}</td>
+              <td>{{event.declined_count}}</td>
+              <td>
+                <a class="btn btn-primary" href="#/event/{{event.eid}}">Details
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-
+      <div class="span2"></div>
     </div>
+
   </div>
+</div>

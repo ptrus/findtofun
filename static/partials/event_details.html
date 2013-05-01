@@ -1,32 +1,103 @@
-	<div class="container pagination-centered">
-	  <div class="hero-unit framediv">
-		<img class="coverPhoto img-rounded" src="mambo.jpg" alt="">
-		<div class="eventtitle">:::{{ singleEvent.name }}  {{ singleEvent.start_time }} @ {{ singleEvent.host }}:::</div>
-		<textarea readonly> event description </textarea>
-        <div class="piechartdiv">
-		  <table>
+<div class="row-fluid">
+    <div class="span2"></div>
+    <div class="span8 pagination-centered">
+
+        <h1>{{event.name}}</h1>
+        <img ng-src="{{event.pic_cover_source}}"/>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                  <th>All members</th>
+                  <th>Attending</th>
+                  <th>Unsure</th>
+                  <th>Declined</th>
+                  <th>Not replied</th>
+                </tr>
+            </thead>
             <tbody>
-              <tr>
-                <th scope="row">Attending</th>
-                <td>45%</td>
-              </tr>
-              <tr>
-                <th scope="row">Declined</th>
-                <td>5%</td>
-              </tr>
-              <tr>
-                <th scope="row">Not replied</th>
-                <td>35%</td>
-              </tr>
-              <tr>
-                <th scope="row">Unsure</th>
-                <td>15%</td>
+                <tr>
+                  <td>{{event.all_members_count}}</td>
+                  <td>{{event.attending_count}}</td>
+                  <td>{{event.unsure_count}}</td>
+                  <td>{{event.declined_count}}</td>
+                  <td>{{event.not_replied_count}}</td>
               </tr>
             </tbody>
-          </table>
-		  <div id="holder"></div>
-        </div>
-	  </div>
-	</div>
+        </table>
 
-<a href="#/events">Go back</a>
+        <div class="row-fluid">
+            <div class="span6">
+                <h2>Venue</h2>
+                <table class="table table-bordered" width="100%">
+                    <tbody>
+                        <tr>
+                            <th width="40%">Name</th>
+                            <td>{{event.venue.name}}</td>
+                        </tr>
+                        <tr>
+                            <th width="40%">Country, city</th>
+                            <td>{{event.venue.country}}, {{event.venue.city}}</td>
+                        </tr>
+                        <tr>
+                            <th width="40%">Street &amp; zip</th>
+                            <td>{{event.venue.street}}, {{event.venue.zip}}</td>
+                        </tr>                    
+                    </tbody>
+                </table>
+            </div>
+            <div class="span6">
+                <h2>Times</h2>
+                <table class="table table-bordered" width="100%">
+                    <tbody>
+                        <tr>
+                            <th width="40%">Timezone</th>
+                            <td>{{event.timezone}}</td>
+                        </tr>
+                        <tr>
+                            <th width="40%">Start</th>
+                            <td>{{event.start_time}}</td>
+                        </tr>
+                        <tr>
+                            <th width="40%">End</th>
+                            <td>{{event.end_time}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        <div class="row-fluid">
+            <div class="span6">
+                <h2>Details</h2>
+                <table class="table table-bordered" width="100%">
+                    <tbody>
+                        <tr>
+                            <th width="40%">Privacy</th>
+                            <td>{{event.privacy}}</td>
+                        </tr>
+                        <tr>
+                            <th width="40%">Ticket url</th>
+                            <td>{{event.ticket_uri}}</td>
+                        </tr>
+                        <tr>
+                            <th width="40%">Males</th>
+                            <td>{{event.males}}</td>
+                        </tr>
+                        <tr>
+                            <th width="40%">Females</th>
+                            <td>{{event.females}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="span6">
+                <awesomechart type="default" id='chart1' width="300" height="300" data="data">
+                </awesomechart>
+            </div>
+        </div>
+
+        <h2>Description
+        <p class="lead" style="text-align: justify;"><small>{{event.description}}</small></p>
+    </div>
+    <div class="span2"></div>
+</div>

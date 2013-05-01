@@ -1,7 +1,12 @@
 from djcelery import celery
+from celery.utils.log import get_task_logger
+
 from facepy import GraphAPI
-from events.models import FbEvent, FbUser, FbLocation
-import time
+from events.models import FbEvent, FbUser
+
+# from copy import deepcopy
+
+logger = get_task_logger(__name__)
 
 
 @celery.task
@@ -20,6 +25,7 @@ def process_events(access_token):
 			 not_replied_count,
 			 pic,
 			 pic_big,
+			 pic_cover,
 			 pic_small,
 			 pic_square,
 			 privacy,
@@ -33,12 +39,13 @@ def process_events(access_token):
 		 WHERE eid IN (SELECT eid FROM event_member WHERE
 			 (uid = me() OR
 				 uid IN (SELECT uid2 FROM friend WHERE uid1 = me())))
-		 AND start_time > now()
+		 AND start_time > now() LIMIT 20
 		"""
 
 	events_results = graph.fql(query_events)
 	events_objects = []
 	eids = []
+
 	for event_data in events_results["data"]:
 		eid = event_data["eid"]
 		if eid in eids:
@@ -47,24 +54,16 @@ def process_events(access_token):
 			eids.append(eid)
 			try:
 				event = FbEvent.objects.get(pk=eid)
-				# update event
+				update_event.s(args=(event, event_data))
 			except FbEvent.DoesNotExist:
-				print event_data
+				log_event("CREATED", event_data)
 				event = FbEvent.objects.create_event(**event_data)
 				events_objects.append(event)
 
-	location_objects = []
-	for event in events_objects:
-		if (event.venue is not None and
-				event.venue not in location_objects):
-			location_objects.append(event.venue)
-
-	FbLocation.objects.bulk_create(location_objects)
 	FbEvent.objects.bulk_create(events_objects)
-
 	for eid in eids:
-		process_users_in_events.delay(access_token, eid)
-		time.sleep(3)
+		# process_users_in_events.delay(access_token, eid)
+		process_users_in_events(access_token, eid)
 
 
 @celery.task
@@ -73,6 +72,7 @@ def process_users_in_events(access_token, eid):
 	query_users = ("""
 		SELECT
 		 uid,
+		 name,
 		 age_range,
 		 current_address,
 		 sex
@@ -86,21 +86,17 @@ def process_users_in_events(access_token, eid):
 	ThroughModel = FbEvent.users.through
 	users_objects = []
 	through_objects = []
-	location_objects = []
 
 	for user_data in users_results["data"]:
 		uid = user_data['uid']
 
 		try:
 			user = FbUser.objects.get(pk=uid)
-			# update user
+			update_user.s(args=(user, user_data))
 		except FbUser.DoesNotExist:
-			print user_data
+			log_user("CREATED", user_data)
 			user = FbUser.objects.create_user(**user_data)
 			users_objects.append(user)
-			if (user.current_address is not None and
-					user.current_address not in location_objects):
-				location_objects.append(user.current_address)
 
 		through_props = dict(
 			fbevent_id=eid,
@@ -109,6 +105,33 @@ def process_users_in_events(access_token, eid):
 		if ThroughModel.objects.filter(**through_props).exists() is False:
 			through_objects.append(ThroughModel(**through_props))
 
-	FbLocation.objects.bulk_create(location_objects)
+
 	FbUser.objects.bulk_create(users_objects)
 	ThroughModel.objects.bulk_create(through_objects)
+	# return dict(
+	# 	users_objects=users_objects,
+	# 	through_objects=through_objects
+	# )
+
+@celery.task
+def update_event(event, event_data):
+	has_changed = FbEvent.objects.update_event(event, **event_data)
+	if has_changed:
+		log_event("UPDATED", event_data)
+
+
+@celery.task
+def update_user(user, user_data):
+	has_changed = FbUser.objects.update_user(user, **user_data)
+	if has_changed:
+		log_user("UPDATED", user_data)
+
+
+def log_event(title, event_data):
+	logger.info("%s event: %s, %s" % (
+		title,
+		event_data.get("eid", ""),
+		event_data.get("name", "")))
+
+def log_user(title, user_data):
+	logger.info("%s user: %s" % (title, user_data))

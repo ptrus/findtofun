@@ -3,19 +3,19 @@
 /* Services */
 
 angular.module('ftfServices', ['ngResource'])
-    .factory('Events', function($resource) {
-        return $resource('/api/v1/event', {}, {
+    .factory('FbEvents', function($resource) {
+        return $resource('/api/v1/fbevents/', {}, {
+            query: {
+                method: 'GET',
+                isArray: false
+            }
+        })
+    })
+    .factory('FbEventDetails', function($resource) {
+        return $resource('/api/v1/fbevents/:eid', {eid: '@eid'}, {
             query: {
                 method: 'GET',
                 isArray: false
             }
         });
-    })
-    .factory('SingleEvent', function($resource) {
-    return $resource('/api/v1/singevent', {}, {
-        query: {
-            method: 'GET',
-            isArray: false
-        }
     });
-});
