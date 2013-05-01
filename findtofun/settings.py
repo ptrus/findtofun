@@ -7,12 +7,6 @@ BASE_DIR = os.path.abspath(os.path.join(APP_DIR, os.pardir))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
-)
-
-MANAGERS = ADMINS
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -234,24 +228,14 @@ FACEBOOK_EXTENDED_PERMISSIONS = [
     'rsvp_event',
 ]
 
-LOGIN_URL = '/accounts/login/'
-LOGOUT_URL = '/accounts/logout/'
-LOGIN_REDIRECT_URL = '/accounts/profile/'
+LOGIN_URL = '/account/login'
+LOGOUT_URL = '/account/logout'
+LOGIN_REDIRECT_URL = '/account/profile'
 LOGIN_ERROR_URL = '/account/error'
 
-SOCIAL_AUTH_BACKEND_ERROR_URL = (
-    LOGIN_ERROR_URL,
-    '?type=backend')
-
-FACEBOOK_SOCIAL_AUTH_BACKEND_ERROR_URL = (
-    SOCIAL_AUTH_BACKEND_ERROR_URL,
-    "&backend=fb")
-
-SOCIAL_AUTH_NEW_USER_REDIRECT_URL = (
-    LOGIN_REDIRECT_URL,
-    '?type=newUser')
-
-SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/account/disconnect'
+SOCIAL_AUTH_BACKEND_ERROR_URL = '/error/'
+FACEBOOK_SOCIAL_AUTH_BACKEND_ERROR_URL = '/error'
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/account/complete'
 SOCIAL_AUTH_INACTIVE_USER_URL = '/account/inactive'
 
 SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
