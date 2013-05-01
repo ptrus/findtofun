@@ -3,105 +3,91 @@
 {% load staticfiles %}
 
 {% block html_attributes %}
-    ng-app="ftf"
+ng-app="ftf"
 {% endblock %}
 
 {% block block-scripts %}
-    <script type="text/javascript" src="{% static 'lib/angular/angular.js' %}"></script>
-    <script type="text/javascript" src="{% static 'lib/angular/angular-resource.js' %}"></script>
 {% endblock %}
 
 {% block noblock-scripts %}
-    <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/services.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/controllers.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/filters.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/directives.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/angular/angular.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/angular/angular-resource.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/services.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/controllers.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/filters.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/directives.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/awesomechart.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/charts/charts.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-    <div class="navbar navbar-inverse navbar-fixed-top">
-	  <div class="navbar-inner">
-		<div class="container-fluid">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-		  </button>
-		  <a class="brand" href="#">FindToFun</a>
-		  <form class="navbar-search pull-left">
-            <input type="text" class="span4 search-query" placeholder="Search events, places, days...">
-		  </form>
+<div class="navbar navbar-inverse navbar-fixed-top" ng-controller="TopCtrl">
+ <div class="navbar-inner">
+  <div class="container-fluid">
+    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="brand" href="#">findtofun</a>
+    <form class="navbar-search pull-left">
+      <input type="text" class="span4 search-query" placeholder="Search events.."></input>
+    </form>
 
-          {% if user.is_authenticated %}
-            <div class="pull-right loginDiv">
-              <ul class="nav pull-right">
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, {{ user.username }} <b class="caret"></b></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="{% url "socialauth_disconnect" "facebook" %}"> Disconnect </a></li>
-                    <li class="divider"></li>
-                    <li><a id="logout" href="account/logout/"><i class="icon-off"></i> Logout</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-          {% else %}
-            <div class="nav-collapse collapse">
-              <div class="pull-right">
-                <ul class="nav pull-right">
-                  <li><a href="#/signup">Sign Up</a></li>
-                  <li class="divider-vertical"></li>
-                  <li class="dropdown">
-                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
-                    <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-                      <form method="post" action="login" accept-charset="UTF-8">
-                        <input style="margin-bottom: 15px;" type="text" placeholder="Username" id="username" name="username">
-                        <input style="margin-bottom: 15px;" type="password" placeholder="Password" id="password" name="password">
-                        <input style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" id="remember-me" value="1">
-                        <label class="string optional" for="user_remember_me"> Remember me</label>
-                        <input class="btn btn-primary btn-block" type="button" id="sign-in" value="Sign In">
-                        <label style="text-align:center;margin-top:5px">or</label>
-                        <a href="{% url "socialauth_begin" "facebook" %}?{{ redirect_querystring }}">
-                           <input class="btn btn-primary btn-block" type="button" id="sign-in-facebook" value="Sign In with Facebook">
-                        </a>
-                      </form>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          {% endif %}
-
-		</div>
-      </div>
+    {% if user.is_authenticated %}
+    <div class="pull-right loginDiv">
+      <ul class="nav pull-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, {{ user.username }} <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a rel="nofollow" id="logout" href="account/logout/"><i class="icon-off"></i> Logout</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
+    {% else %}
+    <div class="nav-collapse collapse">
+      <div class="pull-right">
+        <ul class="nav pull-right">
+          <li class="dropdown">
+            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
+            <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+              <form method="post" action="login" accept-charset="UTF-8">
+                <a rel="nofollow" href="{% url "socialauth_begin" "facebook" %}">
+                 <input class="btn btn-primary btn-block" type="button" id="sign-in-facebook" value="Sign In with Facebook">
+               </a>
+             </form>
+           </div>
+         </li>
+       </ul>
+     </div>
+   </div>
+   {% endif %}
 
+ </div>
+</div>
+</div>
 
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+{% if messages %}
+<ul class="messages">
+  {% for message in messages %}
+  <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
 
-    <div ng-view class="bodyDown"></div>
+<div ng-view></div>
 
-    <hr>
-    <div id="footer" align="center">
-      {% block footer %}
-        <p>&copy; findtofun 2013</p>
-        <a class="footCon" href="#/">[Home]</a>
-        {% if not user.is_authenticated %}
-          <a class="footCon" href="#/signup">[SignUp]</a>
-        {% endif %}
-        <a class="footCon" href="#/contact">[Contact]</a>
-        <a class="footCon" href="#/events">[Events]</a>
-        <a class="footCon" href="http://github.com/ipri2013/findtofun">[GitHub]</a>
-        <a class="footCon" href="https://code.google.com/apis/console/#project:345376232662:access">[Google Console]</a>
-      {% endblock %}
-    </div>
+<hr>
+<div id="footer" align="center">
+  {% block footer %}
+  <p>&copy; findtofun 2013</p>
+  <a class="footCon" href="#/home">[Home]</a>
+  <a class="footCon" href="#/contact">[Contact]</a>
+  <a class="footCon" href="http://github.com/ipri2013/findtofun">[GitHub]</a>
+  {% endblock %}
+</div>
 
 {% endblock %}
 
