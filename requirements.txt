@@ -3,10 +3,12 @@ South==0.7.6
 amqp==1.0.11
 anyjson==0.3.3
 billiard==2.7.3.28
+boto==2.9.2
 celery==3.0.19
 dj-database-url==0.2.1
 django-celery==3.0.17
 django-social-auth==0.7.22
+django-storages==1.1.8
 django-tastypie==0.9.14
 facepy==0.8.4
 gunicorn==0.17.2

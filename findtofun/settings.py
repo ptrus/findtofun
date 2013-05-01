@@ -4,7 +4,7 @@ import os
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.abspath(os.path.join(APP_DIR, os.pardir))
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 DATABASES = {
@@ -20,8 +20,8 @@ DATABASES = {
 }
 
 # Parse database configuration from $DATABASE_URL
-#import dj_database_url
-#DATABASES['default'] =  dj_database_url.config()
+import dj_database_url
+DATABASES['default'] =  dj_database_url.config()
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -63,7 +63,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in events' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ""
+STATIC_ROOT = "stroot/"
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -135,7 +135,8 @@ INSTALLED_APPS = (
     'social_auth',
     'social_custom',
     'tastypie',
-    'djcelery'
+    'djcelery',
+    'storages'
 )
 
 # A sample logging configuration. The only tangible logging
@@ -250,6 +251,12 @@ TEST_FACEBOOK_USER = 'admin1'
 TEST_FACEBOOK_PASSWORD = 'admin1'
 
 BROKER_URL = 'amqp://guest:guest@localhost:5672/'
+
+if not DEBUG:
+    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
+    STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
+    STATIC_URL = S3_URL
 
 try:
     from settings_local import *
