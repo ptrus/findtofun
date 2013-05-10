@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load staticfiles %}
+
+{% block html_attributes %}
+ng-app="ftf"
+{% endblock %}
+
+{% block block-scripts %}
+{% endblock %}
+
+{% block noblock-scripts %}
+<script type="text/javascript" src="{% static 'lib/angular/angular.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/angular/angular-resource.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/services.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/controllers.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/filters.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/directives.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/awesomechart.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/charts/charts.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="navbar navbar-inverse navbar-fixed-top" ng-controller="TopCtrl">
+ <div class="navbar-inner">
+  <div class="container-fluid">
+    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="brand" href="#">findtofun</a>
+    <form class="navbar-search pull-left">
+      <input type="text" class="span4 search-query" placeholder="Search events.."></input>
+    </form>
+
+    {% if user.is_authenticated %}
+    <div class="pull-right loginDiv">
+      <ul class="nav pull-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, {{ user.username }} <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a rel="nofollow" id="logout" href="account/logout/"><i class="icon-off"></i> Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    {% else %}
+    <div class="nav-collapse collapse">
+      <div class="pull-right">
+        <ul class="nav pull-right">
+          <li class="dropdown">
+            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
+            <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+              <form method="post" action="login" accept-charset="UTF-8">
+                <a rel="nofollow" href="{% url "socialauth_begin" "facebook" %}">
+                 <input class="btn btn-primary btn-block" type="button" id="sign-in-facebook" value="Sign In with Facebook">
+               </a>
+             </form>
+           </div>
+         </li>
+       </ul>
+     </div>
+   </div>
+   {% endif %}
+
+ </div>
+</div>
+</div>
+
+{% if messages %}
+<ul class="messages">
+  {% for message in messages %}
+  <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+<div ng-view></div>
+
+<hr>
+<div id="footer" align="center">
+  {% block footer %}
+  <p>&copy; findtofun 2013</p>
+  <a class="footCon" href="#/home">[Home]</a>
+  <a class="footCon" href="#/contact">[Contact]</a>
+  <a class="footCon" href="http://github.com/ipri2013/findtofun">[GitHub]</a>
+  {% endblock %}
+</div>
+
+{% endblock %}
+

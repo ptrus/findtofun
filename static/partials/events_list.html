@@ -1,6 +1,37 @@
-<h1>Events</h1>
-<ul>
-    <li ng-repeat="event in events.objects">
-        <a href="#details">{{event.name}}</a>
-    </li>
-</ul>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span2"></div>
+      <div class="span8 pagination-centered">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Start time</th>
+              <th>Attending</th>
+              <th>Unsure</th>
+              <th>Declined</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="event in fbevents.objects">
+              <td>{{$index + 1}}</td>
+              <td>{{event.name}}</td>
+              <td>{{event.start_time}}</td>
+              <td>{{event.attending_count}}</td>
+              <td>{{event.unsure_count}}</td>
+              <td>{{event.declined_count}}</td>
+              <td>
+                <a class="btn btn-primary" href="#/event/{{event.eid}}">Details
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="span2"></div>
+    </div>
+
+  </div>
+</div>

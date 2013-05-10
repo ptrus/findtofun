@@ -1,5 +1,5 @@
 from django.contrib import admin
-from events.models import Host, Event, Ticket
+from events.models import FbEvent, Ticket
 
 
 class TicketInline(admin.TabularInline):
@@ -9,7 +9,7 @@ class TicketInline(admin.TabularInline):
 
 class EventInline(admin.StackedInline):
     #exclude = ['event_rated'] ce je null da ga ne izpise
-    model = Event
+    model = FbEvent
     extra = 1
 
 
@@ -38,5 +38,5 @@ class EventAdmin(admin.ModelAdmin):
     date_hierarchy = 'start_time'
 
 
-admin.site.register(Host, HostAdmin)
-admin.site.register(Event, EventAdmin)
+# admin.site.register(FbHost, HostAdmin)
+# admin.site.register(FbEvent, EventAdmin)

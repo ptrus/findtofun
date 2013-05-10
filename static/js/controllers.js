@@ -2,18 +2,27 @@
 
 /* Controllers */
 
-function FtfCtrl($scope) {
+function TopCtrl($scope) {}
 
+function EventsListCtrl($scope, FbEvents) {
+	$scope.fbevents = FbEvents.query();
 }
 
-function ContactCtrl($scope) {
+function EventDetailsCtrl($scope, $routeParams, FbEventDetails) {
+	$scope.event = FbEventDetails.query({
+		eid: $routeParams.eid
+	}, fill_chart);
 
-}
 
-function EventsListCtrl($scope, Events) {
-	$scope.events = Events.query();
-}
-
-function EventDetailsCtrl($scope, SingleEvent) {
-	$scope.singleEvent = SingleEvent.query();
+	function fill_chart(event) {
+		$scope.data = [{
+			label: 'Females',
+			value: event.females,
+			color: '#39E639'
+		}, {
+			label: 'Males',
+			value: event.males,
+			color: '#FFA640'
+		}];
+	}
 }
