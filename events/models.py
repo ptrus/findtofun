@@ -134,15 +134,19 @@ class FbEventManager(models.Manager):
     def update_event(self, event, **event_data):
         modified_attrs = []
 
-        tmp = ["all_members_count", "attending_count", "declined_count",
-            "not_replied_count", "unsure_count"]
+        tmp = [
+            "all_members_count", "attending_count", "declined_count",
+            "not_replied_count", "unsure_count"
+        ]
         modified_attrs.extend(h.change_numfields(event, event_data, tmp))
 
         tmp = ["pic", "pic_big", "pic_small", "pic_square", "ticket_uri"]
         modified_attrs.extend(h.change_urlfields(event, event_data, tmp))
 
-        tmp = ["description", "end_time", "host", "privacy", "start_time",
-            "timezone"]
+        tmp = [
+            "description", "end_time", "host", "privacy", "start_time",
+            "timezone"
+        ]
         modified_attrs.extend(h.change_textfields(event, event_data, tmp))
 
         if isinstance(event_data.get("name"), basestring):
