@@ -17,7 +17,7 @@
 4. Open page: <https://localhost:8443>
 
 
-##Stunnel
+##1. Stunnel
 
 1. Install stunnel.
 
@@ -30,7 +30,7 @@
 4. Additional help:  
 <http://www.ianlewis.org/en/testing-https-djangos-development-server>
 	
-##RabbitMQ
+##2. RabbitMQ
 
 1. Install rabbitmq.
 
@@ -46,7 +46,7 @@
 	
 	`--logfile=/path/to/log/file.txt`
 
-##Memcached
+##3. Memcached
 
 1. Install memcached.
 
@@ -87,7 +87,7 @@ Help:
 <https://www.stunnel.org/howto.html>
 
 
-##2. Rabbitmq:
+##2. RabbitMQ:
 
 1. Download & Install rabbitmq:
 
@@ -102,11 +102,11 @@ Help:
     `rabbitmq-server.bat`
 
 
-##3. Start srever:
+##3. Start server:
 
 1. Start server with:
 
-        python manage.py runserver
+        `python manage.py runserver`
 
 
 
