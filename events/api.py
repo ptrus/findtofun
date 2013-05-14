@@ -2,6 +2,7 @@
 from tastypie.resources import ModelResource
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
+
 from events.models import FbEvent, FbLocation, FbUser, FbEventFbUser
 
 
@@ -47,8 +48,23 @@ class FbEventResource(ModelResource):
 				bundle.data['name'] = event.common.name
 				if event.pic_cover is not None:
 					bundle.data['pic_cover_source'] = event.pic_cover.source
-				bundle.data['males'] = event.users.filter(sex="male").count()
-				bundle.data['females'] = event.users.filter(sex="female").count()
+
+				males = dict(
+					all = event.users.filter(sex="male").count())
+				females = dict(
+					all = event.users.filter(sex="female").count())
+				for rsvp_status in ["attending", "unsure", "declined", "not_replied"]:
+					tmp = FbEventFbUser.objects.filter(
+							fbevent=event,
+							rsvp_status=rsvp_status).count()
+					males[rsvp_status] = FbEventFbUser.objects.filter(
+							fbevent=event,
+							rsvp_status=rsvp_status,
+							fbuser__sex="male").count()
+					females[rsvp_status] = tmp - males[rsvp_status]
+
+				bundle.data['males'] = males
+				bundle.data['females'] = females
 				return bundle
 
 
