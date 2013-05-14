@@ -125,6 +125,7 @@ def process_users_in_events_by_rsvp_status(graph, eid, query_users,
 	# 	through_objects=through_objects
 	# )
 
+
 @celery.task
 def update_event(event, event_data):
 	has_changed = FbEvent.objects.update_event(event, **event_data)
@@ -144,6 +145,7 @@ def log_event(title, event_data):
 		title,
 		event_data.get("eid", ""),
 		event_data.get("name", "")))
+
 
 def log_user(title, user_data):
 	logger.info("%s user: %s" % (title, user_data))

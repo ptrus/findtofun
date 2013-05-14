@@ -6,7 +6,7 @@ BASE_DIR = os.path.abspath(os.path.join(APP_DIR, os.pardir))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-
+os.environ['HTTPS'] = "on"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -96,7 +96,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    # 'social_custom.middleware.SSLMiddleware',
+    'social_custom.middleware.SSLMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -114,7 +114,7 @@ ROOT_URLCONF = 'findtofun.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'findtofun.wsgi.application'
 
-TEMPLATE_DIRS = (    
+TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates"
     #   or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.

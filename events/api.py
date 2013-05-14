@@ -7,17 +7,17 @@ from events.models import FbEvent, FbLocation, FbUser, FbEventFbUser
 
 
 class FbLocationResource(ModelResource):
-	class Meta:
-		queryset = FbLocation.objects.all()
-		resource_name = 'fblocation'
-		authentication = SessionAuthentication()
+		class Meta:
+				queryset = FbLocation.objects.all()
+				resource_name = 'fblocation'
+				authentication = SessionAuthentication()
 
 
 class FbUserResource(ModelResource):
-	class Meta:
-		queryset = FbUser.objects.all()
-		resource_name = 'fbuser'
-		authentication = SessionAuthentication()
+		class Meta:
+				queryset = FbUser.objects.all()
+				resource_name = 'fbuser'
+				authentication = SessionAuthentication()
 
 
 class FbEventFbUserResource(ModelResource):
