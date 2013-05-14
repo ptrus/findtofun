@@ -62,6 +62,12 @@
 
 #Windows:
 
+##Setup
+
+1. Start server with:
+
+        `python manage.py runserver`
+
 ##1. Stunnel:
 
 1. Download & Install stunnel:
@@ -100,13 +106,6 @@ Help:
 4. Start RabbitMQ server with typing into console:
 
     `rabbitmq-server.bat`
-
-
-##3. Start server:
-
-1. Start server with:
-
-        `python manage.py runserver`
 
 
 
