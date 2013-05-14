@@ -1,3 +1,5 @@
+#Instructions
+
 #Mac OS X:
 
 ## Setup
@@ -55,5 +57,57 @@
 	`memcached`
 	
 	You can run as daemon with flag: `-d`
+
+
+
+#Windows:
+
+##1. Stunnel:
+
+1. Download & Install stunnel:
+
+    <https://www.stunnel.org/index.html>
+
+2. Open stunnel.exe (ex: C:\Program Files (x86)\stunnel\stunnel.exe).
+
+3. Click on Configuration->Edit stunnel.conf. Replace all with:
+
+        cert=C:\Program Files (x86)\stunnel\stunnel.pem
+        fips = no
+
+        [https]
+        accept=8443
+        connect=8000
+        TIMEOUTclose=1
+
+
+4. Save stunnel.conf and press Reload stunnel.conf.
+
+Help:
+<https://www.stunnel.org/howto.html>
+
+
+##2. Rabbitmq:
+
+1. Download & Install rabbitmq:
+
+    <http://www.rabbitmq.com/>
+
+2. Open cmd as **administrator**!
+
+3. In console go to installation directory (ex: C:\Program Files (x86)\RabbitMQ Server\rabbitmq_server-3.1.0\sbin\).
+
+4. Start RabbitMQ server with typing into console:
+
+    `rabbitmq-server.bat`
+
+
+##3. Start srever:
+
+1. Start server with:
+
+        python manage.py runserver
+
+
 
 
