@@ -5,7 +5,6 @@ F_MAX_LENGTH = 200
 
 
 class Ticket(models.Model):
-
     def __unicode__(self):
         return "Ticket"
 
