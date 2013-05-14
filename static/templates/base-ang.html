@@ -6,12 +6,11 @@
 ng-app="ftf"
 {% endblock %}
 
-{% block block-scripts %}
-{% endblock %}
-
-{% block noblock-scripts %}
+{% block scripts %}
 <script type="text/javascript" src="{% static 'lib/angular/angular.js' %}"></script>
 <script type="text/javascript" src="{% static 'lib/angular/angular-resource.js' %}"></script>
+<!-- <script type="text/javascript" src="{% static 'lib/keypress.js' %}"></script> -->
+<script type="text/javascript" src="{% static 'lib/sorttable.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/services.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/controllers.js' %}"></script>
@@ -32,7 +31,7 @@ ng-app="ftf"
     </button>
     <a class="brand" href="#">findtofun</a>
     <form class="navbar-search pull-left">
-      <input type="text" class="span4 search-query" placeholder="Search events.."></input>
+      <input ng-model="keywords" ng-onkeyup="searchEvents()" type="text" class="span4 search-query" placeholder="Search events.."></input>
     </form>
 
     {% if user.is_authenticated %}
@@ -83,7 +82,7 @@ ng-app="ftf"
 <div id="footer" align="center">
   {% block footer %}
   <p>&copy; findtofun 2013</p>
-  <a class="footCon" href="#/home">[Home]</a>
+  <a class="footCon" href="#">[Home]</a>
   <a class="footCon" href="#/contact">[Contact]</a>
   <a class="footCon" href="http://github.com/ipri2013/findtofun">[GitHub]</a>
   {% endblock %}
