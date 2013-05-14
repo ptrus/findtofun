@@ -26,19 +26,18 @@
     </style>
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-responsive.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-ftf.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/slider.css' %}">
     {% block stylesheets %}{% endblock %}
-
-    <script type="text/javascript" src="{% static 'lib/jquery.js' %}"></script>
-    <script type="text/javascript" src="{% static 'lib/bootstrap/bootstrap.min.js' %}"></script>
-    {% block block-scripts %}{% endblock %}
-    
 </head>
 <body {% block body_attributes %}{% endblock %}>
 
-	{% block content %}{% endblock %}
+  {% block content %}{% endblock %}
 
+    <script type="text/javascript" src="{% static 'lib/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/bootstrap/bootstrap.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'lib/bootstrap-slider.js' %}"></script>
     <!-- <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCh-nJqg7ms9S7c3Ir7DE4C2ck9VMPoKyk&sensor=false"></script> -->
-
-    {% block noblock-scripts %}{% endblock %}
+    {% block scripts %}{% endblock %}   
 </body>
 </html>	

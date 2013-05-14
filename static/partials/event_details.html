@@ -17,11 +17,11 @@
             </thead>
             <tbody>
                 <tr>
-                  <td>{{event.all_members_count}}</td>
-                  <td>{{event.attending_count}}</td>
-                  <td>{{event.unsure_count}}</td>
-                  <td>{{event.declined_count}}</td>
-                  <td>{{event.not_replied_count}}</td>
+                  <td>{{event.all_members}}</td>
+                  <td>{{event.attending}}</td>
+                  <td>{{event.unsure}}</td>
+                  <td>{{event.declined}}</td>
+                  <td>{{event.not_replied}}</td>
               </tr>
             </tbody>
         </table>
@@ -81,17 +81,37 @@
                         </tr>
                         <tr>
                             <th width="40%">Males</th>
-                            <td>{{event.males}}</td>
+                            <td>{{event.males.all}}</td>
                         </tr>
                         <tr>
                             <th width="40%">Females</th>
-                            <td>{{event.females}}</td>
+                            <td>{{event.females.all}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+
+            <h2>Attending</h2>
             <div class="span6">
-                <awesomechart type="default" id='chart1' width="300" height="300" data="data">
+                <awesomechart type="default" id='chart1' width="300" height="300" data="data1">
+                </awesomechart>
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            <div class="span4">
+                <h2>All</h2>
+                <awesomechart type="default" id='chart2' width="200" height="200" data="data2">
+                </awesomechart>
+            </div>
+            <div class="span4">
+                <h2>Unsure</h2>
+                <awesomechart type="default" id='chart3' width="200" height="200" data="data3">
+                </awesomechart>
+            </div>
+            <div class="span4">
+                <h2>Not replied</h2>
+                <awesomechart type="default" id='chart4' width="200" height="200" data="data4">
                 </awesomechart>
             </div>
         </div>
