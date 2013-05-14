@@ -1,5 +1,6 @@
+#Instructions
+
 #Mac OS X:
-#Instructions for SSL
 
 ## Setup
 
@@ -46,13 +47,22 @@
 	`--logfile=/path/to/log/file.txt`
 
 ##Memcached
-Pomoč v angleščini:  
-<http://www.ianlewis.org/en/testing-https-djangos-development-server>
+
+1. Install memcached.
+
+2. Install python binding to memcached.
+
+3. Run memcached:
+
+	`memcached`
+	
+	You can run as daemon with flag: `-d`
 
 
-##Windows:
 
-###1. Stunnel:
+#Windows:
+
+##1. Stunnel:
 
 1. Download & Install stunnel:
 
@@ -62,22 +72,22 @@ Pomoč v angleščini:
 
 3. Click on Configuration->Edit stunnel.conf. Replace all with:
 
-        cert=C:\Program Files (x86)\stunnel\stunnel.pem  
-        fips = no      
-        
-        [https]  
-        accept=8443  
-        connect=8000  
-        TIMEOUTclose=1  
- 
+        cert=C:\Program Files (x86)\stunnel\stunnel.pem
+        fips = no
+
+        [https]
+        accept=8443
+        connect=8000
+        TIMEOUTclose=1
+
 
 4. Save stunnel.conf and press Reload stunnel.conf.
 
-Help:  
+Help:
 <https://www.stunnel.org/howto.html>
 
 
-###2. Rabbitmq:
+##2. Rabbitmq:
 
 1. Download & Install rabbitmq:
 
@@ -92,22 +102,12 @@ Help:
     `rabbitmq-server.bat`
 
 
-###3. Start srever:
+##3. Start srever:
 
 1. Start server with:
-    
+
         python manage.py runserver
 
 
-
-1. Install memcached.
-
-2. Install python binding to memcached.
-
-3. Run memcached:
-
-	`memcached`
-	
-	You can run as daemon with flag: `-d`
 
 
