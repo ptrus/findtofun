@@ -19,6 +19,60 @@
 Pomoč v angleščini:  
 <http://www.ianlewis.org/en/testing-https-djangos-development-server>
 
+
+##Windows:
+
+###1. Stunnel:
+
+1. Download & Install stunnel:
+
+    <https://www.stunnel.org/index.html>
+
+2. Open stunnel.exe (ex: C:\Program Files (x86)\stunnel\stunnel.exe).
+
+3. Click on Configuration->Edit stunnel.conf. Replace all with:
+
+        cert=C:\Program Files (x86)\stunnel\stunnel.pem  
+        fips = no      
+        
+        [https]  
+        accept=8443  
+        connect=8000  
+        TIMEOUTclose=1  
+ 
+
+4. Save stunnel.conf and press Reload stunnel.conf.
+
+Help:  
+<https://www.stunnel.org/howto.html>
+
+
+###2. Rabbitmq:
+
+1. Download & Install rabbitmq:
+
+    <http://www.rabbitmq.com/>
+
+2. Open cmd as **administrator**!
+
+3. In console go to installation directory (ex: C:\Program Files (x86)\RabbitMQ Server\rabbitmq_server-3.1.0\sbin\).
+
+4. Start RabbitMQ server with typing into console:
+
+    `rabbitmq-server.bat`
+
+
+###3. Start srever:
+1. Add this line to settings.py if you dont have it already:  
+
+		os.environ['HTTPS'] = "on"
+
+2. Start server with:
+    
+        python manage.py runserver
+
+
+
 #Navodila za Celery
 <http://blog.azreda.org/2012/09/asynchronous-tasks-complete-celery-with.html>
 
