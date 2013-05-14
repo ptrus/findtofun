@@ -226,6 +226,10 @@ FACEBOOK_API_SECRET = '02124a5e2b45255e1aa3bb9330e3fbe9'
 FACEBOOK_EXTENDED_PERMISSIONS = [
     'create_event',
     'rsvp_event',
+    'user_hometown',
+    'user_location',
+    'user_events',
+    'friends_events'
 ]
 
 LOGIN_URL = '/account/login'
