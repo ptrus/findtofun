@@ -105,8 +105,8 @@ MIDDLEWARE_CLASSES = (
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_custom.middleware.ExampleSocialAuthExceptionMiddleware',
-    'johnny.middleware.LocalStoreClearMiddleware',
-    'johnny.middleware.QueryCacheMiddleware',
+#    'johnny.middleware.LocalStoreClearMiddleware',
+#    'johnny.middleware.QueryCacheMiddleware',
 )
 
 ROOT_URLCONF = 'findtofun.urls'
@@ -257,14 +257,14 @@ SOCIAL_AUTH_SESSION_EXPIRATION = False
 SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
 
 # johnny settings
-CACHES = {
-    'default': dict(
-        BACKEND = 'johnny.backends.memcached.PyLibMCCache',
-        LOCATION = ['127.0.0.1:11211'],
-        JOHNNY_CACHE = True,
-    )
-}
-JOHNNY_MIDDLEWARE_KEY_PREFIX = 'jc_findtofun'
+#CACHES = {
+#    'default': dict(
+#        BACKEND = 'johnny.backends.memcached.PyLibMCCache',
+#        LOCATION = ['127.0.0.1:11211'],
+#        JOHNNY_CACHE = True,
+#    )
+#}
+#JOHNNY_MIDDLEWARE_KEY_PREFIX = 'jc_findtofun'
 
 BROKER_URL = 'amqp://guest:guest@localhost:5672/'
 
@@ -275,7 +275,7 @@ if not DEBUG:
     STATIC_URL = S3_URL
 else:
     os.environ['HTTPS'] = 'on'
-    TASTYPIE_JSON_CACHE = os.path.join(BASE_DIR, 'cache')
+#    TASTYPIE_JSON_CACHE = os.path.join(BASE_DIR, 'cache')
 
 try:
     from settings_local import *
