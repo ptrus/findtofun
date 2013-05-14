@@ -40,6 +40,42 @@ event_data = dict(
     venue={"city": "Ljubljana"})
 
 
+def auto_change_value(obj, attr):
+    data = {}
+    value = getattr(obj, attr)
+    if isinstance(value, (long, int)):
+        data[attr] = value + 1
+    if isinstance(value, (basestring)):
+        naive = parse_datetime(value)
+        if naive is not None:
+            aware = pytz.timezone("Europe/Paris").localize(
+                naive, is_dst=None)
+            new_value = aware.strftime("%Y-%m-%d %H:%M:%S")
+        else:
+            # Regular string
+            new_value = value + "!"
+
+        data[attr] = new_value
+
+    return data
+
+
+class FbEventFbUserTestCase(unittest.TestCase):
+    def setUp(self):
+        user = FbUser.objects.create_user(user_data)
+        user.save()
+        event = FbUser.objects.create_user(event_data)
+        event.save()
+        event.users.add(user, "attending")
+
+        self.user = user
+        self.event = event
+
+    def test_check_rsvp_status(self):
+        print(self.event.through)
+        # self.assertEqual(self.event.ht)
+
+
 class ModelsTestCase(unittest.TestCase):
     def setUp(self):
         try:
@@ -60,36 +96,6 @@ class ModelsTestCase(unittest.TestCase):
 
         self.user = user
         self.event = event
-
-    # def test_fbuser_with_fbevent(self):
-    #     found = self.event.users.all()
-    #     self.assertEqual(len(found), 0)
-
-    #     self.event.users.add(self.user)
-    #     self.event.save()
-    #     found = self.event.users.all()
-    #     self.assertEqual(len(found), 1)
-    #     print self.event.users.all()[0]
-
-
-def auto_change_value(obj, attr):
-    data = {}
-    value = getattr(obj, attr)
-    if isinstance(value, (long, int)):
-        data[attr] = value + 1
-    if isinstance(value, (basestring)):
-        naive = parse_datetime(value)
-        if naive is not None:
-            aware = pytz.timezone("Europe/Paris").localize(
-                naive, is_dst=None)
-            new_value = aware.strftime("%Y-%m-%d %H:%M:%S")
-        else:
-            # Regular string
-            new_value = value + "!"
-
-        data[attr] = new_value
-
-    return data
 
 
 class HelpersTestCase(unittest.TestCase):

@@ -2,10 +2,11 @@
 
 /* Application */
 
+/* Maybe to add: ui.keypress */
 var myApp = angular.module('ftf', ['ftfServices', 'AwesomeChartJS']);
 
 myApp.config(['$routeProvider', function($routeProvider) {
-	$routeProvider.when('/event', {
+	$routeProvider.when('', {
 		templateUrl: '/s/partials/events_list.html',
 		controller: EventsListCtrl
 	})
@@ -17,6 +18,6 @@ myApp.config(['$routeProvider', function($routeProvider) {
 		templateUrl: '/s/partials/contact.html',
 	})
 		.otherwise({
-		redirectTo: '/event'
+		redirectTo: ''
 	});
 }]);

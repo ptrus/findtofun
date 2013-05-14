@@ -20,8 +20,8 @@ DATABASES = {
 }
 
 # Parse database configuration from $DATABASE_URL
-#import dj_database_url
-#DATABASES['default'] =  dj_database_url.config()
+import dj_database_url
+DATABASES['default'] =  dj_database_url.config()
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -63,7 +63,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in events' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ""
+STATIC_ROOT = "stroot/"
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -105,6 +105,8 @@ MIDDLEWARE_CLASSES = (
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_custom.middleware.ExampleSocialAuthExceptionMiddleware',
+    'johnny.middleware.LocalStoreClearMiddleware',
+    'johnny.middleware.QueryCacheMiddleware',
 )
 
 ROOT_URLCONF = 'findtofun.urls'
@@ -135,7 +137,8 @@ INSTALLED_APPS = (
     'social_auth',
     'social_custom',
     'tastypie',
-    'djcelery'
+    'djcelery',
+    'storages'
 )
 
 # A sample logging configuration. The only tangible logging
@@ -221,6 +224,8 @@ SOCIAL_AUTH_PIPELINE = (
     'social_custom.pipeline.write_extra_details',
 )
 
+# FACEBOOK_APP_ID = '529607547102619'
+# FACEBOOK_API_SECRET = 'bc77cb6dd68badcca415ab5cb9f040e3'
 FACEBOOK_APP_ID = '436119486471234'
 FACEBOOK_API_SECRET = '02124a5e2b45255e1aa3bb9330e3fbe9'
 FACEBOOK_EXTENDED_PERMISSIONS = [
@@ -229,7 +234,9 @@ FACEBOOK_EXTENDED_PERMISSIONS = [
     'user_hometown',
     'user_location',
     'user_events',
-    'friends_events'
+    'friends_events',
+    'friends_hometown',
+    'friends_location'
 ]
 
 LOGIN_URL = '/account/login'
@@ -249,11 +256,26 @@ SOCIAL_AUTH_FORCE_POST_DISCONNECT = True
 SOCIAL_AUTH_SESSION_EXPIRATION = False
 SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
 
-# facebook testing
-TEST_FACEBOOK_USER = 'admin1'
-TEST_FACEBOOK_PASSWORD = 'admin1'
+# johnny settings
+CACHES = {
+    'default': dict(
+        BACKEND = 'johnny.backends.memcached.PyLibMCCache',
+        LOCATION = ['127.0.0.1:11211'],
+        JOHNNY_CACHE = True,
+    )
+}
+JOHNNY_MIDDLEWARE_KEY_PREFIX = 'jc_findtofun'
 
 BROKER_URL = 'amqp://guest:guest@localhost:5672/'
+
+if not DEBUG:
+    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
+    STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
+    STATIC_URL = S3_URL
+else:
+    os.environ['HTTPS'] = 'on'
+    TASTYPIE_JSON_CACHE = os.path.join(BASE_DIR, 'cache')
 
 try:
     from settings_local import *

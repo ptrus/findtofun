@@ -26,24 +26,21 @@ class MyUserManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
+        # return self.model._default_manager.create(username=username)
 
     """
     Creates and saves a superuser with the given fields.
     """
     def create_superuser(self, username, email, password, first_name=None,
-                         last_name=None, gender=None):
+                         last_name=None, gender=None, **extra_fields):
 
-        user = self.create_user(
-            username,
-            email,
-            password=password,
-            first_name=first_name,
-            last_name=last_name,
-            gender=gender
-        )
-        user.is_admin = True
-        user.save(using=self._db)
-        return user
+        u = self.create_user(username, email, password, first_name, last_name,
+                             gender, **extra_fields)
+        u.is_staff = True
+        u.is_active = True
+        u.is_superuser = True
+        u.save(using=self._db)
+        return u
 
 
 class MyUser(AbstractBaseUser):
