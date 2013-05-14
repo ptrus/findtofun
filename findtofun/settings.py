@@ -4,7 +4,7 @@ import os
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.abspath(os.path.join(APP_DIR, os.pardir))
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 DATABASES = {
@@ -105,6 +105,8 @@ MIDDLEWARE_CLASSES = (
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_custom.middleware.ExampleSocialAuthExceptionMiddleware',
+    'johnny.middleware.LocalStoreClearMiddleware',
+    'johnny.middleware.QueryCacheMiddleware',
 )
 
 ROOT_URLCONF = 'findtofun.urls'
@@ -222,11 +224,19 @@ SOCIAL_AUTH_PIPELINE = (
     'social_custom.pipeline.write_extra_details',
 )
 
+# FACEBOOK_APP_ID = '529607547102619'
+# FACEBOOK_API_SECRET = 'bc77cb6dd68badcca415ab5cb9f040e3'
 FACEBOOK_APP_ID = '436119486471234'
 FACEBOOK_API_SECRET = '02124a5e2b45255e1aa3bb9330e3fbe9'
 FACEBOOK_EXTENDED_PERMISSIONS = [
     'create_event',
     'rsvp_event',
+    'user_hometown',
+    'user_location',
+    'user_events',
+    'friends_events',
+    'friends_hometown',
+    'friends_location'
 ]
 
 LOGIN_URL = '/account/login'
@@ -246,9 +256,15 @@ SOCIAL_AUTH_FORCE_POST_DISCONNECT = True
 SOCIAL_AUTH_SESSION_EXPIRATION = False
 SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
 
-# facebook testing
-TEST_FACEBOOK_USER = 'admin1'
-TEST_FACEBOOK_PASSWORD = 'admin1'
+# johnny settings
+CACHES = {
+    'default': dict(
+        BACKEND = 'johnny.backends.memcached.PyLibMCCache',
+        LOCATION = ['127.0.0.1:11211'],
+        JOHNNY_CACHE = True,
+    )
+}
+JOHNNY_MIDDLEWARE_KEY_PREFIX = 'jc_findtofun'
 
 BROKER_URL = 'amqp://guest:guest@localhost:5672/'
 
@@ -257,6 +273,9 @@ if not DEBUG:
     STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
     S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
     STATIC_URL = S3_URL
+else:
+    os.environ['HTTPS'] = 'on'
+    TASTYPIE_JSON_CACHE = os.path.join(BASE_DIR, 'cache')
 
 try:
     from settings_local import *

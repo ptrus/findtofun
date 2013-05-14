@@ -66,10 +66,8 @@ def process_events(access_token):
 		process_users_in_events(access_token, eid)
 
 
-@celery.task
-def process_users_in_events(access_token, eid):
-	graph = GraphAPI(access_token)
-	query_users = ("""
+def get_query_for_querying_users(eid, rsvp_status):
+	return ("""
 		SELECT
 		 uid,
 		 name,
@@ -79,9 +77,22 @@ def process_users_in_events(access_token, eid):
 		 FROM user
 
 		 WHERE uid IN
-			 (SELECT uid FROM event_member WHERE eid = %s)
-		""") % (eid)
+			 (SELECT uid FROM event_member WHERE eid = %s AND rsvp_status = '%s')
+		""") % (eid, rsvp_status)
 
+@celery.task
+def process_users_in_events(access_token, eid):
+	graph = GraphAPI(access_token)
+	for rsvp_status in ["attending", "unsure", "declined", "not_replied"]:
+		process_users_in_events_by_rsvp_status(
+			graph,
+			eid,
+			get_query_for_querying_users(eid, rsvp_status),
+			rsvp_status)
+
+
+def process_users_in_events_by_rsvp_status(graph, eid, query_users,
+		rsvp_status):
 	users_results = graph.fql(query_users)
 	ThroughModel = FbEvent.users.through
 	users_objects = []
@@ -100,7 +111,8 @@ def process_users_in_events(access_token, eid):
 
 		through_props = dict(
 			fbevent_id=eid,
-			fbuser_id=uid)
+			fbuser_id=uid,
+			rsvp_status=rsvp_status)
 
 		if ThroughModel.objects.filter(**through_props).exists() is False:
 			through_objects.append(ThroughModel(**through_props))
