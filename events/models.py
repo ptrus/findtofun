@@ -129,26 +129,19 @@ class FbEventManager(models.Manager):
         if timezone is None:
             event_data["timezone"] = ""
 
-        event_data['all_members'] = event_data.pop('all_members_count');
-        event_data['attending'] = event_data.pop('attending_count');
-        event_data['declined'] = event_data.pop('declined_count');
-        event_data['unsure'] = event_data.pop('unsure_count');
-        event_data['not_replied'] = event_data.pop('not_replied_count');
+        event_data['all_members'] = event_data.pop('all_members_count')
+        event_data['attending'] = event_data.pop('attending_count')
+        event_data['declined'] = event_data.pop('declined_count')
+        event_data['unsure'] = event_data.pop('unsure_count')
+        event_data['not_replied'] = event_data.pop('not_replied_count')
 
         return self.model(**event_data)
 
     def update_event(self, event, **event_data):
         modified_attrs = []
 
-<<<<<<< HEAD
         tmp = ["all_members", "attending", "declined",
             "not_replied", "unsure"]
-=======
-        tmp = [
-            "all_members_count", "attending_count", "declined_count",
-            "not_replied_count", "unsure_count"
-        ]
->>>>>>> upstream/master
         modified_attrs.extend(h.change_numfields(event, event_data, tmp))
 
         tmp = ["pic", "pic_big", "pic_small", "pic_square", "ticket_uri"]
