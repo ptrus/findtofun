@@ -1,4 +1,4 @@
-#Navodila za SSL
+#Instructions for SSL
 
 ##Mac OS X:
 
@@ -63,11 +63,8 @@ Help:
 
 
 ###3. Start srever:
-1. Add this line to settings.py if you dont have it already:  
 
-		os.environ['HTTPS'] = "on"
-
-2. Start server with:
+1. Start server with:
     
         python manage.py runserver
 
