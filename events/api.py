@@ -50,9 +50,9 @@ class FbEventResource(ModelResource):
 					bundle.data['pic_cover_source'] = event.pic_cover.source
 
 				males = dict(
-					all = event.users.filter(sex="male").count())
+					all_members = event.users.filter(sex="male").count())
 				females = dict(
-					all = event.users.filter(sex="female").count())
+					all_members = event.users.filter(sex="female").count())
 				for rsvp_status in ["attending", "unsure", "declined", "not_replied"]:
 					tmp = FbEventFbUser.objects.filter(
 							fbevent=event,
