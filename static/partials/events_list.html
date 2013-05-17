@@ -9,20 +9,27 @@
         <span ng-switch-when="textfield">
           {{choice.text}}
             <ng-switch on="choice.last">
-              <input ng-switch-when="true" type="text" ng-model="value" ng-change="fireBigFilter()">
+              <input ng-switch-when="true" type="text" ng-model="value" ng-change="fillFilters()">
               <input ng-switch-default type="text" ng-model="value">
           </ng-switch>
         </span>
         <span ng-switch-when="numericfield">
           {{choice.text}}
           <ng-switch on="choice.last">
-            <input ng-switch-when="true" type="number" ng-model="value" ng-change="fireBigFilter()">
+            <input ng-switch-when="true" type="number" ng-model="value" ng-change="fillFilters()">
             <input ng-switch-default type="number" ng-model="value">
+          </ng-switch>
+        </span>
+        <span ng-switch-when="percentage">
+          {{choice.text}}
+          <ng-switch on="choice.last">
+            <input ng-switch-when="true" type="number" ng-model="value" ng-change="fillFilters()" min=0 max=100>
+            <input ng-switch-default type="number" ng-model="value"  min=0 max=100>
           </ng-switch>
         </span>
         <span ng-switch-when="slider">
           {{choice.text}}
-          <input type="text" value="" class="slider" id="{{choice.id}}" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="show" ng-init="Slider.transform(choice.id)">
+          <input type="text" value="" class="slider" id="sliderInit" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="show" ng-init="Slider.transform(choice)">
         </span>
       </ng-switch>
   </script>
@@ -34,12 +41,12 @@
         <ol>
           <li ng-repeat="choice in filters">
             <ul>
-              <li ng-include="'filter_renderer.html'">
+              <li ng-include="'filter_renderer.html'"></li>
               [<a href ng-click="filters.splice($index, 1)">X</a>]
-              </li>
             </ul>
+          </li>
         </ol>
-        [<a href ng-click="filters.push(fields)">add</a>]
+        [<a href ng-click="filters.push(F.get())">add</a>]
       </div>
       <div class="span8 pagination-centered">
         <table id="event-list" class="table table-striped sortable">
@@ -55,7 +62,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="event in fbevents.objects | filter: bigFilter">
+            <tr ng-repeat="event in fbevents.objects | filter: filledFilters">
               <td>{{$index + 1}}</td>
               <td>{{event.name}}</td>
               <td>{{event.start_time}}</td>

@@ -7,10 +7,10 @@ function TopCtrl($scope, $rootScope, $location) {
 		if ($location.$$path !== '') {
 				$location.path('#');
 		}
-		
-		setTimeout(function() {
-			$('#f-name').val($scope.keywords).trigger("input");
-		}, 10);
+
+		// setTimeout(function() {
+		// 	$('#f-name').val($scope.keywords).trigger("input");
+		// }, 10);
 	};
 }
 
@@ -32,167 +32,210 @@ function EventsListCtrl($scope, $routeParams, FbEvents) {
 		return o;
 	};
 
-	$scope.clone = function(o) {
+	var clone = function(o) {
 		return jQuery.extend(true, {}, o);
-	}
+	};
 
-	var Slider = (function() {
-		var i = 0;
-		var prefix = "slider"
+	// var Slider = (function() {
+	// 	var id = 0;
+	// 	var prefix = "slider";
 
-		var transform = function(o) {
-			$('.slider').slider();
-			var sl = $('#' + prefix + o.id).slider()
-			.on('slideStop', function(ev){
-				console.log(sl.getValue());
-			})
-	  		.data("slider");
+	// 	var transform = function(o) {
+	// 		o = setId(o);
+
+	// 		var sliderId = prefix + o.id;
+	// 		$('#' + prefix + 'Init')[0].setAttribute('id', sliderId);
+	// 		$('#' + sliderId).slider().on('slideStop', onChange).data("slider");
+	// 	};
+
+	// 	var onChange = function(ev) {
+	// 		$scope.fillFilters();
+	// 		dirtyChecking();
+	// 	};
+
+	// 	var setId = function(o) {
+	// 		id += 1;
+	// 		o['id'] = id;
+	// 		return o;
+	// 	};
+
+	// 	return {
+	// 		transform: transform
+	// 	};
+	// })();
+	// $scope.Slider = Slider;
+
+	$scope.F = (function(F) {
+		F.textfield = {
+			text: 'value',
+			type: 'textfield'
 		};
 
-		var setId = function(o) {
-			o["id"] = prefix + i;
-			console.log(i);
-			i += 1;
-			return o;
-		}
+		F.numericfield = {
+			text: 'value',
+			type: 'numericfield'
+		};
 
-		var initHelper = function(o) {
-			return setId($scope.clone(o));
-		}
+		// F.deviance = {
+		// 	text: 'deviance',
+		// 	type: 'slider'
+		// };
 
-		return {
-			transform: transform,
-			setId: setId,
-			init: initHelper
-		}
-	})();
-	$scope.Slider = Slider;
+		// F.percentage = {
+		// 	text: 'percentage',
+		// 	type: 'slider'
+		// };
 
-	$scope.textfield = {
-		text: 'value',
-		type: 'textfield'
-	};
+		F.percentage = {
+			text: 'value',
+			type: 'percentage'
+		};
 
-	$scope.numericfield = {
-		text: 'value',
-		type: 'numericfield'
-	};
+		F.type = {
+			text: 'by',
+			type: 'selectfield',
+			values: [
+				{name: 'number', next: [last(F.numericfield)]}
+			]
+		};
 
-	$scope.deviance = {
-		text: 'deviance',
-		type: 'slider'
-	};
+		F.type2 = clone(F.type);
+		F.type2['values'].push({
+			name: 'percentage',
+			next: [last(F.percentage)]
+		});
 
-	$scope.percentage = {
-		text: 'percentage',
-		type: 'slider'
-	};
+		F.gender = {
+			text: 'gender',
+			type: 'selectfield',
+			values: [
+				{name: 'both',		next: [F.type]},
+				{name: 'males',		next: [F.type2]},
+				{name: 'females',	next: [F.type2]}
+			]
+		};
 
-	$scope.type = {
-		text: 'by',
-		type: 'selectfield',
-		values: [
-			{
-				name: 'number',
-				next: [
-					last($scope.numericfield),
-					last(Slider.init($scope.deviance)),
-				]
-			},
-			{
-				name: 'percentage',
-				next: [
-					last($scope.percentage),
-					last($scope.deviance)
-				]
-			}
-		]
-	};
+		F.fields = {
+			text: 'field',
+			type: 'selectfield',
+			values: [
+				{name: 'name',			next: [last(F.textfield)]},
+				{name: 'all_members',	next: [F.gender]},
+				{name: 'attending',		next: [F.gender]},
+				{name: 'unsure',		next: [F.gender]},
+				{name: 'declined',		next: [F.gender]},
+				{name: 'not_replied',	next: [F.gender]}
+			]
+		};
 
-	$scope.gender = {
-		text: 'gender',
-		type: 'selectfield',
-		values: [
-			{name: 'both',		next: [$scope.type]},
-			{name: 'male',		next: [$scope.type]},
-			{name: 'female',	next: [$scope.type]}
-		]
-	};
+		var fields_idx = 0;
+		F.get = function() {
+			var fields = clone(F.fields);
+			fields["idx"] = fields_idx;
+			fields_idx += 1;
+			return fields;
+		};
 
-	$scope.fields = {
-		text: 'field',
-		type: 'selectfield',
-		values: [
-			{name: 'tomi',			next: [last($scope.deviance)]},
-		    {name: 'name', 			next: [last($scope.textfield)]},
-		    {name: 'all_members',	next: [$scope.gender]},
-		    {name: 'attending',		next: [$scope.gender]},
-		    {name: 'unsure', 		next: [$scope.gender]},
-		    {name: 'declined', 		next: [$scope.gender]},
-		    {name: 'not_replied', 	next: [$scope.gender]}
-	   	]
-  	};
+		return F;
+	})({});
 
 	$scope.filters = [];
+	var filledFilters = [];
 
-	$scope.debug = function() {
-		debugger;
-	};
+	// Run on user's action in filters.
+	// Will redo filter's value and parameters.
+	$scope.fillFilters = function() {
+		var input = this.value;
+		var params = [];
+		var filterIdx;
 
-	$scope.fireBigFilter = function() {
-		console.log(this.value);
-	};
+		var me = this.$parent;
+		while(me.$parent) {
+			if (me.c_values) {
+				params.splice(0, 0, {value: me.c_values.name});
+			}
+			else if (me.choice && !me.choice.last) {
+				params[0]["key"] = me.choice.text;
+			}
 
-	// Set up slider for deviance and gender
-	$('.slider').slider();
-	var sl_deviance = $('#sl-deviance').slider()
-        .on('slideStop', dirtyChecking).data('slider');
-
-	$scope.bigFilter = function(item) {
-    	return (item.name.indexOf($scope.f_name) !== -1) || !$scope.f_name;
-		var l1 = [
-			$scope.f_all_members,
-			$scope.f_attending,
-			$scope.f_unsure,
-			$scope.f_declined,
-			$scope.f_not_replied];
-
-		var o;
-		if (gender_deviance === 'Both') {
-			o = item;
-		}
-		else if (gender_deviance == 'Males') {
-			o = item.males;
-		}
-		else if (gender_deviance == 'Females') {
-			o = item.females;
-		}
-
-		var l2 = [
-			o.all_members,
-			o.attending,
-			o.unsure,
-			o.declined,
-			o.not_replied];
-
-		for (var i=0; i<l1.length; i++) {
-			if (l1[i] && 
-				(
-					l1[i] + l1[i] * sl_deviance.getValue() / 100 < l2[i] ||
-					l1[i] - l1[i] * sl_deviance.getValue() / 100 > l2[i]
-				)) {
-				return false;
+			me = me.$parent;
+			if (me.$parent.$parent === me.$root) {
+				filterIdx = me.choice.idx;
+				break;
 			}
 		}
+
+		filledFilters[filterIdx] = {
+			input: input,
+			params: params
+		};
+	};
+
+	$scope.filledFilters = function(item) {
+		for (var i=0; i<filledFilters.length; i++) {
+			var F = filledFilters[i];
+			if (!F) { continue; }
+			for (var j=0, bundle; j<F.params.length; j++) {
+				var param = F.params[j];
+				var key = param['key'];
+				var value = param['value'];
+
+				if (key === "field") {
+					if (value === 'name') {
+						if (item.name.toUpperCase().indexOf(
+								F.input.toUpperCase()) === -1) {
+							return false;
+						}
+					}
+					else  if (['all_members', 'attending', 'unsure',
+							'declined', 'not_replied'].indexOf(value) >= 0) {
+
+						bundle = {
+							'both': item[value],
+							'males': item.males[value],
+							'females': item.females[value]
+						};
+					}
+				}
+				else if (key === 'gender' && bundle &&
+						bundle.hasOwnProperty('both') &&
+						bundle.hasOwnProperty('males') &&
+						bundle.hasOwnProperty('females') &&
+						(value === 'both' ||
+						value === 'males' ||
+						value === 'females')) {
+
+					bundle["active"] = value;
+				}
+				else if (key === 'by' && bundle['active'] &&
+						typeof F.input === 'number') {
+
+					if (value === 'number') {
+						// deviance hardcoded 10%
+
+						var tmp = bundle[bundle["active"]];
+						if (F.input > tmp * 1.1 ||
+								F.input < tmp * 0.9) {
+							return false;
+						}
+					}
+					else if (value === 'percentage' &&
+							bundle["active"] !== 'both') {
+						// deviance hardcoded 10%
+
+						var percentage = (bundle[bundle['active']] /
+							bundle['both']) * 100;
+						if (F.input > percentage * 1.1 ||
+								F.input < percentage * 0.9) {
+							return false;
+						}
+					}
+				}
+			}
+		}
+
 		return true;
     };
-
-    function compare_integers_prefix(v1, v2) {
-    	v1 = v1.toString();
-    	v2 = v2.toString();
-
-    	return v1 === v2.substring(0, v1.length);
-    }
 }
 
 function EventDetailsCtrl($scope, $routeParams, FbEventDetails) {
@@ -203,41 +246,41 @@ function EventDetailsCtrl($scope, $routeParams, FbEventDetails) {
 
 	function fill_charts(event) {
 		$scope.data1 = [{
-			label: 'Females',
+			label: 'Males',
 			value: event.males.attending,
 			color: '#39E639'
 		}, {
-			label: 'Males',
+			label: 'Females',
 			value: event.females.attending,
 			color: '#FFA640'
 		}];
 
 		$scope.data2 = [{
-			label: 'Females',
-			value: event.males.all,
+			label: 'Males',
+			value: event.males.all_members,
 			color: '#39E639'
 		}, {
-			label: 'Males',
-			value: event.females.all,
+			label: 'Females',
+			value: event.females.all_members,
 			color: '#FFA640'
 		}];
 
 		$scope.data3 = [{
-			label: 'Females',
+			label: 'Males',
 			value: event.males.unsure,
 			color: '#39E639'
 		}, {
-			label: 'Males',
+			label: 'Females',
 			value: event.females.unsure,
 			color: '#FFA640'
 		}];
 
 		$scope.data4 = [{
-			label: 'Females',
+			label: 'Males',
 			value: event.males.not_replied,
 			color: '#39E639'
 		}, {
-			label: 'Males',
+			label: 'Females',
 			value: event.females.not_replied,
 			color: '#FFA640'
 		}];

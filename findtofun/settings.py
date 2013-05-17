@@ -257,13 +257,13 @@ SOCIAL_AUTH_SESSION_EXPIRATION = False
 SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
 
 # johnny settings
-CACHES = {
-    'default': dict(
-        BACKEND = 'johnny.backends.memcached.PyLibMCCache',
-        LOCATION = ['127.0.0.1:11211'],
-        JOHNNY_CACHE = True,
-    )
-}
+# CACHES = {
+    # 'default': dict(
+    #     BACKEND = 'johnny.backends.memcached.PyLibMCCache',
+    #     LOCATION = ['127.0.0.1:11211'],
+    #     JOHNNY_CACHE = True,
+    # )
+# }
 JOHNNY_MIDDLEWARE_KEY_PREFIX = 'jc_findtofun'
 
 BROKER_URL = 'amqp://guest:guest@localhost:5672/'
