@@ -11,3 +11,7 @@ table.sortable thead {
 	width:100%;
 	margin-bottom:0.7em;
 }
+
+.filtersList select, input {
+	width: auto;
+}

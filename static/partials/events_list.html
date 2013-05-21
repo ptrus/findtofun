@@ -2,29 +2,29 @@
       <ng-switch on="choice.type">
         <span ng-switch-when="selectfield">
           {{choice.text}}
-          <select ng-model='c_values' ng-options="value.name for value in choice.values"></select>
+          <select ng-model='c_values' ng-options="value.name for value in choice.values" ng-init="c_values = choice.values[0]"></select>
           <li ng-repeat="(c_values, choice) in c_values.next" ng-include="'filter_renderer.html'"></li>
           </span>
         </span>
         <span ng-switch-when="textfield">
           {{choice.text}}
             <ng-switch on="choice.last">
-              <input ng-switch-when="true" type="text" ng-model="value" ng-change="fillFilters()">
-              <input ng-switch-default type="text" ng-model="value">
+              <input ng-switch-when="true" type="text" ng-model="value" ng-change="fillFilters()" ng-class="choice.class">
+              <input ng-switch-default type="text" ng-model="value" ng-class="choice.class">
           </ng-switch>
         </span>
         <span ng-switch-when="numericfield">
           {{choice.text}}
           <ng-switch on="choice.last">
-            <input ng-switch-when="true" type="number" ng-model="value" ng-change="fillFilters()">
-            <input ng-switch-default type="number" ng-model="value">
+            <input ng-switch-when="true" type="number" ng-model="value" ng-change="fillFilters()"  ng-class="choice.class">
+            <input ng-switch-default type="number" ng-model="value" ng-class="choice.class">
           </ng-switch>
         </span>
         <span ng-switch-when="percentage">
           {{choice.text}}
           <ng-switch on="choice.last">
-            <input ng-switch-when="true" type="number" ng-model="value" ng-change="fillFilters()" min=0 max=100>
-            <input ng-switch-default type="number" ng-model="value"  min=0 max=100>
+            <input ng-switch-when="true" type="number" ng-model="value" ng-change="fillFilters()" min=0 max=100 ng-class="choice.class">
+            <input ng-switch-default type="number" ng-model="value"  min=0 max=100 ng-class="choice.class">
           </ng-switch>
         </span>
         <span ng-switch-when="slider">
@@ -38,15 +38,13 @@
     <div class="row-fluid">
       <div class="span2 well sidebar-nav">
         <div class="filterHeading">Filters</div>
-        <ol>
-          <li ng-repeat="choice in filters">
-            <ul>
+          <span ng-repeat="choice in filters">
+            <ul class="filtersList">
               <li ng-include="'filter_renderer.html'"></li>
-              [<a href ng-click="filters.splice($index, 1)">X</a>]
+              [<a href ng-click="removeFilter($index)">X</a>]
             </ul>
-          </li>
-        </ol>
-        [<a href ng-click="filters.push(F.get())">add</a>]
+          </span>
+        [<a href class="addFilter" ng-click="addFilter()">add</a>]
       </div>
       <div class="span8 pagination-centered">
         <table id="event-list" class="table table-striped sortable">
@@ -62,7 +60,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="event in fbevents.objects | filter: filledFilters">
+            <tr ng-repeat="event in fbevents.objects | filter: processFilters">
               <td>{{$index + 1}}</td>
               <td>{{event.name}}</td>
               <td>{{event.start_time}}</td>
