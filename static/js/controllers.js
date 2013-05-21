@@ -5,12 +5,17 @@
 function TopCtrl($scope, $rootScope, $location) {
 	$scope.searchEvents = function() {
 		if ($location.$$path !== '') {
-				$location.path('#');
+				location = '#';
 		}
 
-		// setTimeout(function() {
-		// 	$('#f-name').val($scope.keywords).trigger("input");
-		// }, 10);
+		setTimeout(function() {
+			var eventNameFilters = $('.eventName');
+			if (eventNameFilters.length == 0) {
+				$('.addFilter').click();
+			}
+			
+			eventNameFilters.val($scope.keywords).trigger("input");
+		}, 10);
 	};
 }
 
@@ -65,7 +70,7 @@ function EventsListCtrl($scope, $routeParams, FbEvents) {
 	// })();
 	// $scope.Slider = Slider;
 
-	$scope.F = (function(F) {
+	var F = (function(F) {
 		F.textfield = {
 			text: 'value',
 			type: 'textfield'
@@ -75,6 +80,9 @@ function EventsListCtrl($scope, $routeParams, FbEvents) {
 			text: 'value',
 			type: 'numericfield'
 		};
+
+		F.eventName = clone(F.textfield);
+		F.eventName['class'] = 'eventName';
 
 		// F.deviance = {
 		// 	text: 'deviance',
@@ -119,7 +127,7 @@ function EventsListCtrl($scope, $routeParams, FbEvents) {
 			text: 'field',
 			type: 'selectfield',
 			values: [
-				{name: 'name',			next: [last(F.textfield)]},
+				{name: 'name',			next: [last(F.eventName)]},
 				{name: 'all_members',	next: [F.gender]},
 				{name: 'attending',		next: [F.gender]},
 				{name: 'unsure',		next: [F.gender]},
@@ -139,11 +147,18 @@ function EventsListCtrl($scope, $routeParams, FbEvents) {
 		return F;
 	})({});
 
+	$scope.removeFilter = function(index) {
+		$scope.filters.splice(index, 1);
+		filledFilters.splice(index, 1);
+	};
+
+	$scope.addFilter = function() {
+		$scope.filters.push(F.get());
+	}
+
 	$scope.filters = [];
 	var filledFilters = [];
 
-	// Run on user's action in filters.
-	// Will redo filter's value and parameters.
 	$scope.fillFilters = function() {
 		var input = this.value;
 		var params = [];
@@ -171,7 +186,7 @@ function EventsListCtrl($scope, $routeParams, FbEvents) {
 		};
 	};
 
-	$scope.filledFilters = function(item) {
+	$scope.processFilters = function(item) {
 		for (var i=0; i<filledFilters.length; i++) {
 			var F = filledFilters[i];
 			if (!F) { continue; }
@@ -211,22 +226,22 @@ function EventsListCtrl($scope, $routeParams, FbEvents) {
 						typeof F.input === 'number') {
 
 					if (value === 'number') {
-						// deviance hardcoded 10%
+						// deviance hardcoded 25%
 
 						var tmp = bundle[bundle["active"]];
-						if (F.input > tmp * 1.1 ||
-								F.input < tmp * 0.9) {
+						if (F.input > tmp * 1.25 ||
+								F.input < tmp * 0.75) {
 							return false;
 						}
 					}
 					else if (value === 'percentage' &&
 							bundle["active"] !== 'both') {
-						// deviance hardcoded 10%
+						// deviance hardcoded 25%
 
 						var percentage = (bundle[bundle['active']] /
 							bundle['both']) * 100;
-						if (F.input > percentage * 1.1 ||
-								F.input < percentage * 0.9) {
+						if (F.input > percentage * 1.25 ||
+								F.input < percentage * 0.75) {
 							return false;
 						}
 					}
